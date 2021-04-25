@@ -1,0 +1,368 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load temptag %}
+{% block content %}
+    <div class="breadcrumb-area section-space--breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <!--=======  breadcrumb wrapper  =======-->
+                    <div class="breadcrumb-wrapper">
+                        <h2 class="page-title">{% trans "Məhsullar" %}</h2>
+                        <ul class="breadcrumb-list">
+                            <li><a href="{% url 'core:index' %}">{% trans "Ana Səhifə" %}</a></li>
+                            <li><a href="{% url 'products:products' %}">{% trans "Məhsullar" %}</a></li>
+                            <li class="active">{{ product.title }}</li>
+                        </ul>
+                    </div>
+
+                    <!--=======  End of breadcrumb wrapper  =======-->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--====================  End of breadcrumb area  ====================-->
+
+    <!--====================  page content wrapper ====================-->
+
+    <div class="page-content-wrapper">
+        <!--=======  single product slider details area  =======-->
+
+        <div class="single-product-slider-details-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <!--=======  product details slider area  =======-->
+                        <div class="product-details-slider-area product-details-slider-area--side-move">
+                            <div class="product-badge-wrapper">
+                                {% for label in product.labels.all %}
+                                    <span class="hot"
+                                          style="background-color: {{ label.color }}">{{ label.text }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="row row-5">
+                                <div class="col-md-9 order-1 order-md-2">
+                                    <div class="big-image-wrapper">
+                                        <div class="enlarge-icon">
+                                            <a class="btn-zoom-popup" href="javascript:void(0)"
+                                               data-tippy="Click to enlarge" data-tippy-placement="left"
+                                               data-tippy-inertia="true" data-tippy-animation="shift-away"
+                                               data-tippy-delay="50" data-tippy-arrow="true"
+                                               data-tippy-theme="sharpborder"><i class="pe-7s-expand1"></i></a>
+                                        </div>
+                                        <div class="product-details-big-image-slider-wrapper product-details-big-image-slider-wrapper--side-space theme-slick-slider"
+                                             data-slick-setting='{
+                    "slidesToShow": 1,
+                    "slidesToScroll": 1,
+                    "arrows": false,
+                    "autoplay": false,
+                    "autoplaySpeed": 5000,
+                    "fade": true,
+                    "speed": 500,
+                    "prevArrow": {"buttonClass": "slick-prev", "iconClass": "fa fa-angle-left" },
+                    "nextArrow": {"buttonClass": "slick-next", "iconClass": "fa fa-angle-right" }
+                }' data-slick-responsive='[
+                    {"breakpoint":1501, "settings": {"slidesToShow": 1, "arrows": false} },
+                    {"breakpoint":1199, "settings": {"slidesToShow": 1, "arrows": false} },
+                    {"breakpoint":991, "settings": {"slidesToShow": 1, "arrows": false, "slidesToScroll": 1} },
+                    {"breakpoint":767, "settings": {"slidesToShow": 1, "arrows": false, "slidesToScroll": 1} },
+                    {"breakpoint":575, "settings": {"slidesToShow": 1, "arrows": false, "slidesToScroll": 1} },
+                    {"breakpoint":479, "settings": {"slidesToShow": 1, "arrows": false, "slidesToScroll": 1} }
+
+                ]'>
+                                            <div class="single-image">
+                                                <img src="{{ product.image.url }}" class="img-fluid" alt="">
+                                            </div>
+                                            {% for i in product.images.all %}
+                                                <div class="single-image">
+                                                    <img src="{{ i.image.url }}" class="img-fluid" alt="">
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 order-2 order-md-1">
+                                    <div class="product-details-small-image-slider-wrapper product-details-small-image-slider-wrapper--vertical-space theme-slick-slider"
+                                         data-slick-setting='{
+                "slidesToShow": 3,
+                "slidesToScroll": 1,
+                "centerMode": false,
+                "arrows": true,
+                "vertical": true,
+                "autoplay": false,
+                "autoplaySpeed": 5000,
+                "speed": 500,
+                "asNavFor": ".product-details-big-image-slider-wrapper",
+                "focusOnSelect": true,
+                "prevArrow": {"buttonClass": "slick-prev", "iconClass": "fa fa-angle-up" },
+                "nextArrow": {"buttonClass": "slick-next", "iconClass": "fa fa-angle-down" }
+            }' data-slick-responsive='[
+                {"breakpoint":1501, "settings": {"slidesToShow": 3, "arrows": true} },
+                {"breakpoint":1199, "settings": {"slidesToShow": 3, "arrows": true} },
+                {"breakpoint":991, "settings": {"slidesToShow": 3, "arrows": true, "slidesToScroll": 1} },
+                {"breakpoint":767, "settings": {"slidesToShow": 3, "arrows": false, "slidesToScroll": 1, "vertical": false, "centerMode": true} },
+                {"breakpoint":575, "settings": {"slidesToShow": 3, "arrows": false, "slidesToScroll": 1, "vertical": false, "centerMode": true} },
+                {"breakpoint":479, "settings": {"slidesToShow": 2, "arrows": false, "slidesToScroll": 1, "vertical": false, "centerMode": true} }
+            ]'>
+
+                                        <div class="single-image">
+                                            <img src="{{ product.image.url }}" class="img-fluid" alt="">
+                                        </div>
+                                        {% for i in product.images.all %}
+                                            <div class="single-image">
+                                                <img src="{{ i.image.url }}" class="img-fluid" alt="">
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <!--=======  End of product details slider area  =======-->
+                    </div>
+                    <div class="col-lg-6">
+                        <!--=======  product details description area  =======-->
+                        {% in_cart product.id as productCart %}
+                        <div class="product-details-description-wrapper">
+                            <h2 class="item-title">{{ product.title }}</h2>
+                            <p class="price">
+                                {% if product.old_price %}
+                                    <span class="main-price discounted">{{ product.old_price }} AZN</span>
+                                {% endif %}
+                                <span class="discounted-price">{{ product.price }} AZN</span>
+                            </p>
+                            <p class="description">
+                                {{ product.brief_info }}
+                            </p>
+
+                            <div class="pro-qty d-inline-block">
+                                <input class="count-holder" data-product-id="{{ product.id }}" type="text"
+                                       value="{{ productCart.count }}">
+                            </div>
+                            <div class="action-btns d-inline-block">
+                                {% if productCart.in_cart %}
+                                    <button data-product-id="{{ product.id }}"
+                                            class="remove-from-cart theme-button">
+                                        {% trans "Səbətdən Sil" %}
+                                    </button>
+                                {% else %}
+                                    <button data-product-id="{{ product.id }}"
+                                            class="add-to-cart theme-button theme-button--alt">
+                                        {% trans "Səbətə At" %}
+                                    </button>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!--=======  End of product details description area  =======-->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!--=======  End of single product slider details area  =======-->
+
+        <!--=======  single product description tab area  =======-->
+
+        <div class="single-product-description-tab-area section-space">
+            <!--=======  description tab navigation  =======-->
+
+            <div class="description-tab-navigation">
+                <div class="nav nav-tabs justify-content-center" id="nav-tab2" role="tablist">
+                    <a class="nav-item nav-link active" id="description-tab" data-toggle="tab"
+                       href="#product-description" role="tab" aria-selected="true">Ətraflı</a>
+                    <a class="nav-item nav-link" id="additional-info-tab" data-toggle="tab"
+                       href="#product-additional-info" role="tab" aria-selected="false">Xüsusiyyətlər</a>
+                </div>
+            </div>
+
+            <!--=======  End of description tab navigation  =======-->
+
+            <!--=======  description tab content  =======-->
+
+
+            <div class="single-product-description-tab-content">
+
+                <div class="tab-content">
+
+                    <div class="tab-pane fade show active" id="product-description" role="tabpanel"
+                         aria-labelledby="description-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!--=======  description content  =======-->
+
+                                    <div class="description-content">
+                                        {{ product.content|safe }}
+                                    </div>
+
+                                    <!--=======  End of description content  =======-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="product-additional-info" role="tabpanel"
+                         aria-labelledby="additional-info-tab">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <!--=======  additional info content  =======-->
+
+                                    <div class="additional-info-content">
+                                        <table class="additional-info-table">
+                                            <tbody>
+                                            {% for i in product.properties.all %}
+                                                <tr>
+                                                    <th>{{ i.field }}</th>
+                                                    <td>{{ i.content }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!--=======  End of additional info content  =======-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!--=======  End of description tab content  =======-->
+
+        </div>
+
+        <!--=======  End of single product description tab area  =======-->
+
+        <!--====================  related product slider area ====================-->
+
+        <div class="product-slider-area section-space">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+
+                        <div class="section-title-area text-center">
+                            <h2 class="section-title">{% trans "Oxşar Məhsullar" %}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!--=======  product slider wrapper  =======-->
+
+                        <div class="product-slider-wrapper theme-slick-slider" data-slick-setting='{
+                        "slidesToShow": 4,
+                        "slidesToScroll": 4,
+                        "arrows": true,
+                        "dots": true,
+                        "autoplay": false,
+                        "speed": 500,
+                        "prevArrow": {"buttonClass": "slick-prev", "iconClass": "fa fa-angle-left" },
+                        "nextArrow": {"buttonClass": "slick-next", "iconClass": "fa fa-angle-right" }
+                    }' data-slick-responsive='[
+                        {"breakpoint":1501, "settings": {"slidesToShow": 4, "slidesToScroll": 4, "arrows": false} },
+                        {"breakpoint":1199, "settings": {"slidesToShow": 3, "slidesToScroll": 3, "arrows": false} },
+                        {"breakpoint":991, "settings": {"slidesToShow": 2,"slidesToScroll": 2, "arrows": true, "dots": false} },
+                        {"breakpoint":767, "settings": {"slidesToShow": 2,"slidesToScroll": 2,  "arrows": true, "dots": false} },
+                        {"breakpoint":575, "settings": {"slidesToShow": 2, "slidesToScroll": 2,"arrows": false, "dots": true} },
+                        {"breakpoint":479, "settings": {"slidesToShow": 1,"slidesToScroll": 1, "arrows": true, "dots": false} }
+                    ]'>
+
+                            {% for i in product.get_related_products %}
+                                <div class="col">
+                                    <!--=======  single short view product  =======-->
+
+                                    <div class="single-grid-product">
+                                        <div class="single-grid-product__image">
+                                            <div class="product-badge-wrapper">
+                                                {% if i.old_price %}
+                                                    <span class="onsale">{{ i.get_discount }}%</span>{% endif %}
+                                                {% for label in i.labels.all %}
+                                                    <span class="hot"
+                                                          style="background-color: {{ label.color }}">{{ label.text }}</span>
+                                                {% endfor %}
+                                            </div>
+                                            <a href="{{ i.get_absolute_url }}" class="image-wrap">
+                                                <img src="{{ i.image.url }}"
+                                                     class="img-fluid"
+                                                     alt="">
+
+                                            </a>
+                                            <div class="product-hover-icon-wrapper">
+                                                <span class="single-icon single-icon--quick-view">
+                                                    <a class="cd-trigger"
+                                                       href="#qv-1"
+                                                       data-tippy="Quick View"
+                                                       data-tippy-inertia="true"
+                                                       data-tippy-animation="shift-away"
+                                                       data-tippy-delay="50"
+                                                       data-tippy-arrow="true"
+                                                       data-tippy-theme="sharpborder">
+                                                        <i
+                                                                class="fa fa-search"></i></a></span>
+                                                <span class="single-icon single-icon--add-to-cart"><a href="#"
+                                                                                                      data-tippy="Add to cart"
+                                                                                                      data-tippy-inertia="true"
+                                                                                                      data-tippy-animation="shift-away"
+                                                                                                      data-tippy-delay="50"
+                                                                                                      data-tippy-arrow="true"
+                                                                                                      data-tippy-theme="sharpborder"> <i
+                                                        class="fa fa-shopping-basket"></i> <span>ADD TO CART</span> </a></span>
+                                                <span class="single-icon single-icon--compare"><a href="#"
+                                                                                                  data-tippy="Compare"
+                                                                                                  data-tippy-inertia="true"
+                                                                                                  data-tippy-animation="shift-away"
+                                                                                                  data-tippy-delay="50"
+                                                                                                  data-tippy-arrow="true"
+                                                                                                  data-tippy-theme="sharpborder"><i
+                                                        class="fa fa-exchange"></i></a></span>
+                                            </div>
+                                        </div>
+                                        <div class="single-grid-product__content">
+                                            <h3 class="title"><a href="product-details-basic.html">{{ i.title }}</a>
+                                            </h3>
+                                            <div class="price">
+                                                {% if i.old_price %}
+                                                    <span class="main-price discounted">{{ i.old_price }} AZN</span>
+                                                {% endif %}
+                                                <span class="discounted-price">{{ i.price }} AZN</span></div>
+                                            <a href="#" class="favorite-icon" data-tippy="Add to Wishlist"
+                                               data-tippy-inertia="true" data-tippy-animation="shift-away"
+                                               data-tippy-delay="50" data-tippy-arrow="true"
+                                               data-tippy-theme="sharpborder" data-tippy-placement="left">
+                                                <i class="fa fa-heart-o"></i>
+                                                <i class="fa fa-heart"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <!--=======  End of single short view product  =======-->
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <!--=======  End of product slider wrapper  =======-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--====================  End of related product slider area  ====================-->
+
+    </div>
+
+    <!--====================  End of page content wrapper  ====================-->
+
+    <!--====================  footer ====================-->
+
+{% endblock %}

@@ -1,0 +1,349 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load mptt_tags %}
+{% load temptag %}
+{% block content %}
+    <!--====================  breadcrumb area ====================-->
+
+    <div class="breadcrumb-area section-space--breadcrumb">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <!--=======  breadcrumb wrapper  =======-->
+                    <div class="breadcrumb-wrapper">
+                        <h2 class="page-title">{% trans "Məhsullar" %}</h2>
+                        <ul class="breadcrumb-list">
+                            <li><a href="{% url 'core:index' %}">{% trans "Ana Səhifə" %}</a></li>
+                            <li class="active">{% trans "Məhsullar" %}</li>
+                        </ul>
+                    </div>
+                    <!--=======  End of breadcrumb wrapper  =======-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--====================  End of breadcrumb area  ====================-->
+
+    <!--====================  page content wrapper ====================-->
+
+    <div class="page-content-wrapper">
+        <!--=======  shop page area  =======-->
+
+        <div class="shop-page-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 order-2 order-lg-1">
+                        <!--=======  shop sidebar wrapper  =======-->
+                        <style>
+                            .single-sidebar-widget__dropdown .sub-menu > li.has-children {
+                                position: relative;
+                            }
+
+                            .single-sidebar-widget__dropdown > li.has-children > .sub-menu > li.has-children .sub-menu {
+                                display: none;
+                                padding-left: 35px;
+                                border-top: 1px solid #eee;
+                            }
+
+                            .single-sidebar-widget__dropdown > li.has-children.active > i {
+                                -webkit-transform: rotate(180deg);
+                                -ms-transform: rotate(180deg);
+                                transform: rotate(180deg);
+                            }
+
+                            .single-sidebar-widget__dropdown .sub-menu > li.has-children > i {
+                                line-height: 40px;
+                                position: absolute;
+                                top: 5px;
+                                right: 0;
+                                width: 40px;
+                                height: 40px;
+                                cursor: pointer;
+                                -webkit-transition: .3s;
+                                transition: .3s;
+                            }
+
+                            .single-sidebar-widget__dropdown .sub-menu > li.has-children.active > i {
+                                -webkit-transform: rotate(180deg);
+                                -ms-transform: rotate(180deg);
+                                transform: rotate(180deg);
+                            }
+
+                            .single-sidebar-widget__dropdown .sub-menu > li.has-children.active > i {
+                                -webkit-transform: rotate(180deg);
+                                -ms-transform: rotate(180deg);
+                                transform: rotate(180deg);
+                            }
+                        </style>
+                        <div class="shop-sidebar-wrapper">
+                            <!--=======  single sidebar widget  =======-->
+                            <div class="single-sidebar-widget">
+                                <h2 class="single-sidebar-widget__title">{% trans "Kateqoriyalar" %}</h2>
+                                <ul class="single-sidebar-widget__dropdown" id="single-sidebar-widget__dropdown">
+                                    <li>
+                                        <a href="{% url 'products:products' %}">{% trans "Bütün Kateqoriyalar" %}</a>
+                                    </li>
+                                    {% recursetree categories %}
+                                        <li {% if node.has_children %} class="has-children" {% endif %}>
+                                            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                                            <ul class="sub-menu">
+                                                {{ children }}
+                                            </ul>
+                                        </li>
+                                    {% endrecursetree %}
+                                </ul>
+                            </div>
+                            <!--=======  End of single sidebar widget  =======-->
+                        </div>
+
+                        <!--=======  End of shop sidebar wrapper  =======-->
+                    </div>
+
+                    <div class="col-lg-9 order-1 order-lg-2">
+                        <!--=======  shop content wrapper  =======-->
+
+                        <div class="shop-content-wrapper">
+                            <!--=======  shop header wrapper  =======-->
+                            <div class="shop-header">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-6 col-12">
+                                        <!--=======  header left content  =======-->
+
+                                        <div class="shop-header__left">
+                                            <div class="view-mode-icons d-inline-block">
+                                                <a href="javascript:void(0)" class="active" data-tippy="Grid"
+                                                   data-target="grid" data-tippy-inertia="true"
+                                                   data-tippy-animation="shift-away" data-tippy-delay="50"
+                                                   data-tippy-arrow="true" data-tippy-theme="sharpborder"><i
+                                                        class="fa fa-th"></i></a>
+                                                <a href="javascript:void(0)" data-target="list" data-tippy="List"
+                                                   data-tippy-inertia="true" data-tippy-animation="shift-away"
+                                                   data-tippy-delay="50" data-tippy-arrow="true"
+                                                   data-tippy-theme="sharpborder"><i class="fa fa-list"></i></a>
+                                            </div>
+                                        </div>
+
+                                        <!--=======  End of header left content  =======-->
+                                    </div>
+
+                                    <div class="col-sm-6 col-12">
+
+                                        <!--=======  header right content  =======-->
+
+                                        <div class="shop-header__right d-flex justify-content-start justify-content-sm-end align-items-center">
+                                            <div class="grid-view-changer" id="grid-view-changer">
+                                                <a href="javascript:void(0)" id="grid-view-change-trigger"
+                                                   data-tippy="View Options" data-target="grid"
+                                                   data-tippy-inertia="true" data-tippy-animation="shift-away"
+                                                   data-tippy-delay="50" data-tippy-arrow="true"
+                                                   data-tippy-theme="sharpborder">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                                <div class="grid-view-changer__menu" id="grid-view-changer__menu">
+                                                    <a href="javascript:void(0)" data-target="two-column">2</a>
+                                                    <a href="javascript:void(0)" data-target="three-column">3</a>
+                                                    <a href="javascript:void(0)" data-target="four-column">4</a>
+                                                    <a href="javascript:void(0)" id="grid-view-close-trigger"><i
+                                                            class="fa fa-angle-right"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--=======  End of header right content  =======-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--=======  End of shop header wrapper  =======-->
+
+                            <!--=======  shop product wrapper  =======-->
+
+                            <div class="shop-product-wrap shop-product-wrap--with-sidebar row grid">
+                                {% for i in products %}
+                                    {% in_cart i.id as productCart %}
+                                    <div class="col-lg-4 col-md-6 col-sm-6 col-custom-sm-6 col-12">
+                                        <!--=======  grid view product  =======-->
+                                        <div class="single-grid-product">
+                                            <div class="single-grid-product__image">
+                                                <div class="product-badge-wrapper">
+                                                    {% if i.old_price %}
+                                                        <span class="onsale">{{ i.get_discount }}%</span>{% endif %}
+                                                    {% for label in i.labels.all %}
+                                                        <span class="hot"
+                                                              style="background-color: {{ label.color }}">{{ label.text }}</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <a href="{{ i.get_absolute_url }}" class="image-wrap">
+                                                    <img src="{{ i.image.url }}"
+                                                         class="img-fluid"
+                                                         alt="">
+
+                                                </a>
+                                                <div class="product-hover-icon-wrapper">
+                                                <span class="single-icon single-icon--quick-view">
+                                                    <a class="cd-trigger"
+                                                       href="#qv-1"
+                                                       data-tippy="{% trans 'Sürətli baxış' %}"
+                                                       data-tippy-inertia="true"
+                                                       data-tippy-animation="shift-away"
+                                                       data-tippy-delay="50"
+                                                       data-tippy-arrow="true"
+                                                       data-tippy-theme="sharpborder">
+                                                        <i
+                                                                class="fa fa-search"></i></a></span>
+                                                    <span class="single-icon single-icon--add-to-cart">
+                                                        {% if productCart.in_cart %}
+                                                            <a href="#"
+                                                               class="remove-from-cart"
+                                                               data-product-id="{{ i.id }}"
+                                                               data-tippy="{% trans 'Səbətdən sil' %}"
+                                                               data-tippy-inertia="true"
+                                                               data-tippy-animation="shift-away"
+                                                               data-tippy-delay="50"
+                                                               data-tippy-arrow="true"
+                                                               data-tippy-theme="sharpborder"> <i
+                                                                    class="fa fa-shopping-basket"></i> <span>{% trans 'Səbətdən sil' %}</span> </a>
+                                                        {% else %}
+                                                            <a href="#"
+                                                               class="add-to-cart"
+                                                               data-product-id="{{ i.id }}"
+                                                               data-tippy="{% trans 'Səbətə at' %}"
+                                                               data-tippy-inertia="true"
+                                                               data-tippy-animation="shift-away"
+                                                               data-tippy-delay="50"
+                                                               data-tippy-arrow="true"
+                                                               data-tippy-theme="sharpborder"> <i
+                                                                    class="fa fa-shopping-basket"></i> <span>{% trans "Səbətə At" %}</span> </a>
+                                                        {% endif %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="single-grid-product__content">
+                                                <h3 class="title"><a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
+                                                </h3>
+                                                <p class="brief" style="display: none;">
+                                                    {{ i.brief_info }}
+                                                </p>
+                                                <div class="price">
+                                                    {% if i.old_price %}
+                                                        <span class="main-price discounted">{{ i.old_price }} AZN</span>
+                                                    {% endif %}
+                                                    <span class="discounted-price">{{ i.price }} AZN</span></div>
+                                            </div>
+                                        </div>
+
+                                        <!--=======  End of grid view product  =======-->
+
+                                        <!--=======  list view product  =======-->
+
+                                        <div class="single-list-product">
+
+                                            <div class="single-list-product__image">
+                                                <div class="product-badge-wrapper">
+                                                    {% if i.old_price %}
+                                                        <span class="onsale">{{ i.get_discount }}%</span>{% endif %}
+                                                    {% for label in i.labels.all %}
+                                                        <span class="hot"
+                                                              style="background-color: {{ label.color }}">{{ label.text }}</span>
+                                                    {% endfor %}
+                                                </div>
+                                                <a href="{{ i.get_absolute_url }}" class="image-wrap">
+                                                    <img src="{{ i.image.url }}"
+                                                         class="img-fluid"
+                                                         alt="">
+
+                                                </a>
+
+                                            </div>
+
+                                            <div class="single-list-product__content">
+                                                <h3 class="title"><a href="{{ i.get_absolute_url }}">{{ i.title }}</a>
+                                                </h3>
+                                                <p class="brief" style="display: none;">
+                                                    {{ i.brief_info }}
+                                                </p>
+                                                <div class="price">
+                                                    {% if i.old_price %}
+                                                        <span class="main-price discounted">{{ i.old_price }} AZN</span>
+                                                    {% endif %}
+                                                    <span class="discounted-price">{{ i.price }} AZN</span></div>
+                                                <p class="product-short-desc">
+                                                    {{ i.brief_info }}
+                                                </p>
+                                                <div class="product-hover-icon-wrapper">
+                                                <span class="single-icon single-icon--quick-view"><a class="cd-trigger"
+                                                                                                     href="#qv-1"
+                                                                                                     data-tippy="{% trans 'Sürətli baxış' %}"
+                                                                                                     data-tippy-inertia="true"
+                                                                                                     data-tippy-animation="shift-away"
+                                                                                                     data-tippy-delay="50"
+                                                                                                     data-tippy-arrow="true"
+                                                                                                     data-tippy-theme="sharpborder"><i
+                                                        class="fa fa-search"></i></a></span>
+                                                    <span class="single-icon single-icon--add-to-cart">
+                                                        {% if productCart.in_cart %}
+                                                            <a href="#"
+                                                               class="remove-from-cart"
+                                                               data-product-id="{{ i.id }}"
+                                                               data-tippy="{% trans 'Səbətdən sil' %}"
+                                                               data-tippy-inertia="true"
+                                                               data-tippy-animation="shift-away"
+                                                               data-tippy-delay="50"
+                                                               data-tippy-arrow="true"
+                                                               data-tippy-theme="sharpborder"> <i
+                                                                    class="fa fa-shopping-basket"></i> <span>{% trans 'Səbətdən sil' %}</span> </a>
+                                                        {% else %}
+                                                            <a href="#"
+                                                               class="add-to-cart"
+                                                               data-product-id="{{ i.id }}"
+                                                               data-tippy="{% trans 'Səbətə at' %}"
+                                                               data-tippy-inertia="true"
+                                                               data-tippy-animation="shift-away"
+                                                               data-tippy-delay="50"
+                                                               data-tippy-arrow="true"
+                                                               data-tippy-theme="sharpborder"> <i
+                                                                    class="fa fa-shopping-basket"></i> <span>{% trans "Səbətə At" %}</span> </a>
+                                                        {% endif %}</span>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!--=======  End of list view product  =======-->
+
+                                    </div>
+                                {% empty %}
+                                    <h1 style="margin: 0 auto">{% trans "Məhsullar Tapılmadı" %}</h1>
+                                {% endfor %}
+                            </div>
+
+                            <!--=======  End of shop product wrapper  =======-->
+
+                            <!--=======  pagination wrapper  =======-->
+
+                            <div class="pagination-wrapper">
+                                <ul>
+                                    {% if page_obj.has_previous %}
+                                        <li><a href="?page={{ page_obj.previous_page_number }}"><i
+                                                class="fa fa-angle-left"></i></a></li>
+                                    {% endif %}
+                                    {% if page_obj.has_next %}
+                                        <li><a href="?page={{ page_obj.next_page_number }}"><i
+                                                class="fa fa-angle-right"></i></a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                            <!--=======  End of pagination wrapper  =======-->
+
+                        </div>
+
+                        <!--=======  End of shop content wrapper  =======-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--=======  End of shop page area  =======-->
+    </div>
+{% endblock %}

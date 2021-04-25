@@ -1,0 +1,40 @@
+version: "3"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      cache_from:
+        - "${WEB_IMAGE}"
+    image: "${WEB_IMAGE}"
+    command: /venv/bin/gunicorn general.wsgi --bind 0.0.0.0:8000
+    restart: "always"
+    env_file: .env
+    environment:
+      - VIRTUAL_HOST=159.65.118.32
+      - VIRTUAL_PORT=8000
+      - TIMEOUT=300
+      - HTTP_PORT=8000
+      - STATS_PORT=8001
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+  nginx:
+    build:
+      context: ./nginx
+      cache_from:
+        - "${NGINX_IMAGE}"
+    image: "${NGINX_IMAGE}"
+    volumes:
+      - ./static:/var/www/web/static
+      - ./media:/var/www/web/media
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+

@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /venv/bin/python manage.py runserver 0.0.0.0:8000
+    restart: "always"
+    env_file: .env.dev
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12.2-alpine
+    ports:
+      - 5432:5432 # Bind host port 5432 to PostgreSQL port 5432
+    volumes:
+      - postgredb:/var/lib/postgresql/data
+    env_file: .env.dev
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx-proxy
+    ports:
+      - 80:80
+    volumes:
+      - ./static:/var/www/web/static
+      - ./media:/var/www/web/media
+    depends_on:
+      - web
+
+volumes:
+  postgredb:
+
+# docker-compose exec web python manage.py flush --no-input
+# docker-compose exec web python manage.py migrate --noinput
+#$ docker-compose -f docker-compose.prod.yml exec web python manage.py collectstatic --no-input --clear
