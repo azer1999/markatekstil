@@ -10,47 +10,35 @@
     <title>MarkaTekstil</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon -->
     <link rel="icon" href="/static/img/favicon.ico">
 
-    <!--=============================================
-    =            CSS  files       =
-    =============================================-->
-
-    <!-- Vendor CSS -->
     <link href="/static/css/vendors.css" rel="stylesheet">
-    <!-- Main CSS -->
     <link href="/static/css/style.css" rel="stylesheet">
 
-
-    <!-- Revolution Slider CSS -->
     <link href="/static/revolution/css/settings.css" rel="stylesheet">
     <link href="/static/revolution/css/navigation.css" rel="stylesheet">
     <link href="/static/revolution/custom-setting.css" rel="stylesheet">
 
-
 </head>
 
 <body>
-<!--=======  header offer sticker  =======-->
 
 <div class="header-offer-sticker text-center">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <p>New arrivals & Sale off up to 70%. <a href="shop-left-sidebar.html">Shop now</a></p>
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-<!--=======  End of header offer sticker  =======-->
-
-<!--====================  header area ====================-->
 
 <div class="header-area header-area--one header-sticky">
-
-    <!--=======  header info area  =======-->
 
     <div class="header-info-area d-none d-lg-block">
         <div class="container">
@@ -69,33 +57,22 @@
                         </div>
 
                         <div class="header-logo text-center">
-                            <a href="{% url 'core:index' %}">
+                            <a href="{% url 'core:index' domain=current_site.name %}">
                                 <img src="{{ logo.image.url }}" style="max-width: 200px" class="img-fluid" alt="">
                             </a>
                         </div>
 
                         <div class="header-icon-area">
-                            <div class="account-dropdown">
-                                <a href="my-account.html">Login / Register <i class="pe-7s-angle-down"></i></a>
-
-                                <ul class="account-dropdown__list">
-                                    <li><a href="my-account.html">My account</a></li>
-                                    <li><a href="cart.html">Shopping cart</a></li>
-                                    <li><a href="checkout.html">Checkout</a></li>
-                                    <li><a href="order-tracking.html">Order Tracking</a></li>
-                                </ul>
-                            </div>
-
                             <div class="header-icon">
                                 <ul class="header-icon__list">
                                     <li>
                                         <a href="javascript:void(0)" id="search-icon"><i class="fa fa-search"></i></a>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)"><i class="fa fa-user-circle"></i></a>
+                                        <a href="{% url 'user:profile' %}"><i class="fa fa-user-circle"></i></a>
                                     </li>
                                     <li>
-                                        <a href="cart.html"><i class="fa fa-shopping-basket"></i>
+                                        <a href=""><i class="fa fa-shopping-basket"></i>
                                             <span class="item-count">{{ cart.get_total_items }}</span>
                                         </a>
                                         <div class="minicart-wrapper">
@@ -103,8 +80,10 @@
                                             <div class="minicart-wrapper__items ps-scroll">
                                                 {% for i in cart %}
                                                     <div class="minicart-wrapper__items__single">
-                                                        <a href="javascript:void(0)" class="close-icon"><i
-                                                                class="pe-7s-close"></i></a>
+                                                        <a href="javascript:void(0)"
+                                                           class="remove-from-cart close-icon"
+                                                           data-product-id="{{ i.product.id }}">
+                                                            <i class="pe-7s-close"></i></a>
                                                         <div class="image">
                                                             <a href="{{ i.product.get_absolute_url }}">
                                                                 <img src="{{ i.product.get_thumbnail }}"
@@ -130,7 +109,8 @@
                                             </p>
 
                                             <div class="minicart-wrapper__buttons">
-                                                <a href="" class="theme-button theme-button--minicart-button">
+                                                <a href="{% url 'cart:cart' %}"
+                                                   class="theme-button theme-button--minicart-button">
                                                     {% trans "Səbətə keç" %}
                                                 </a>
                                                 <a href=""
@@ -138,6 +118,11 @@
                                             </div>
                                         </div>
                                     </li>
+                                    {% if request.user.is_authenticated %}
+                                        <li>
+                                            <a href="{% url 'user:logout' %}"><i class="fa fa-sign-out"></i></a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -146,10 +131,6 @@
             </div>
         </div>
     </div>
-
-    <!--=======  End of header info area  =======-->
-
-    <!--=======  navigation area  =======-->
 
     <div class="header-navigation-area header-navigation-area--dark d-none d-lg-block">
         <div class="container">
@@ -202,10 +183,10 @@
                                 <li><a href="javascript:void(0)" id="search-icon-2"><i class="fa fa-search"></i></a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)"><i class="fa fa-user-circle"></i></a>
+                                    <a href="{% url 'user:profile' %}"><i class="fa fa-user-circle"></i></a>
                                 </li>
                                 <li>
-                                    <a href="cart.html"><i class="fa fa-shopping-basket"></i><span
+                                    <a href="{% url 'cart:cart' %}"><i class="fa fa-shopping-basket"></i><span
                                             class="item-count">{{ cart.get_total_items }}</span></a>
                                     <div class="minicart-wrapper">
                                         <p class="minicart-wrapper__title">{% trans "Mini səbət" %}</p>
@@ -239,14 +220,20 @@
                                             <span>{{ cart.get_total_cost }} AZN</span></p>
 
                                         <div class="minicart-wrapper__buttons">
-                                            <a href="cart.html" class="theme-button theme-button--minicart-button">
+                                            <a href="{% url 'cart:cart' %}"
+                                               class="theme-button theme-button--minicart-button">
                                                 {% trans "Səbətə keç" %}
                                             </a>
-                                            <a href="checkout.html"
+                                            <a href="{% url 'order:checkout' %}"
                                                class="theme-button theme-button--alt theme-button--minicart-button theme-button--minicart-button--alt mb-0">{% trans "Sifariş et" %}</a>
                                         </div>
                                     </div>
                                 </li>
+                                {% if request.user.is_authenticated %}
+                                    <li>
+                                        <a href="{% url 'user:logout' %}"><i class="fa fa-sign-out"></i></a>
+                                    </li>
+                                {% endif %}
                             </ul>
                         </div>
                     </div>
@@ -254,16 +241,14 @@
             </div>
         </div>
     </div>
-    <!--=======  End of navigation area  =======-->
 
-    <!--=======  mobile navigation area  =======-->
 
     <div class="header-mobile-navigation d-block d-lg-none">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-6 col-md-6">
                     <div class="header-logo">
-                        <a href="{% url 'core:index' %}">
+                        <a href="{% url 'core:index' domain=current_site.name %}">
                             <img src="{{ logo.image.url }}" class="img-fluid" alt="">
                         </a>
                     </div>
@@ -272,7 +257,7 @@
                     <div class="mobile-navigation text-right">
                         <ul class="header-icon__list header-icon__list">
                             <li>
-                                <a href="cart.html"><i class="fa fa-shopping-basket"></i><span
+                                <a href="{% url 'cart:cart' %}"><i class="fa fa-shopping-basket"></i><span
                                         class="item-count">{{ cart.get_total_items }}</span></a>
                             </li>
                             <li><a href="javascript:void(0)" class="mobile-menu-icon" id="mobile-menu-trigger"><i
@@ -295,7 +280,7 @@
 
             <div class="offcanvas-inner-content">
                 <div class="offcanvas-mobile-search-area">
-                    <form action="{% url 'products:products' %}">
+                    <form action="{% url 'products:products' domain=current_site.name %}">
                         <input type="search" name="name" placeholder="{% trans 'Axtarış' %}">
                         <button type="submit"><i class="fa fa-search"></i></button>
                     </form>
@@ -329,27 +314,22 @@
                             </ul>
                         </div>
                     </div>
-                    <!--Off Canvas Widget Social Start-->
                     <div class="off-canvas-widget-social">
                         {% for i in media %}
                             <a href="{{ i.media.url }}" title="{{ i.media }}"><i class="fa fa-{{ i.media }}"></i></a>
                         {% endfor %}
                     </div>
-                    <!--Off Canvas Widget Social End-->
                 </div>
             </div>
         </div>
 
     </div>
 
-    <!--=======  End of offcanvas mobile menu  =======-->
-    <!--=======  End of mobile navigation area  =======-->
 </div>
 
 {% block content %}
 
 {% endblock %}
-<!--====================  footer ====================-->
 
 <div class="footer-area">
     {% csrf_token %}
@@ -365,6 +345,7 @@
                                     <ul>
                                         <li><a href="#">{% trans "Haqqımızda" %}</a></li>
                                         <li><a href="#">{% trans "Əlaqə" %}</a></li>
+                                        <li><a href="#">{% trans "FAQ" %}</a></li>
                                     </ul>
                                 </nav>
                             </div>
@@ -387,9 +368,11 @@
                     <div class="footer-widget footer-widget--two">
                         <h4 class="footer-widget__title">{% trans "Xəbərlərə Abunə Ol" %}</h4>
                         <div class="newsletter-form-area">
-                            <form id="mc-form" class="mc-form">
+                            <form action="{% url 'core:subscribe' domain=current_site.name %}" method="post"
+                                  class="mc-form">
+                                {% csrf_token %}
                                 <div class="footer-widget__newsletter-form">
-                                    <input type="email" placeholder="{% trans 'E-poçt' %}" required>
+                                    <input name="email" type="email" placeholder="{% trans 'E-poçt' %}" required>
                                     <button type="submit">{% trans "Abunə ol" %}</button>
                                 </div>
                             </form>
@@ -417,23 +400,19 @@
             </div>
         </div>
     </div>
-
     <div class="footer-copyright-area">
         <div class="container wide">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="copyright-text text-center">
-                        Copyright &copy; 2021 <a href="#">MarkaTekstil</a>. Bütün hüquqlar qorunur
+                        Copyright &copy; 2021 <a href="{% url 'core:index' domain=current_site.name %}">MarkaTekstil</a>.
+                        Bütün hüquqlar qorunur
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!--=============================================
-=            JS files        =
-=============================================-->
-
 
 <div class="search-overlay" id="search-overlay">
 
@@ -445,25 +424,16 @@
         </a>
     </span>
 
-    <!--=======  End of close icon  =======-->
-
-    <!--=======  search overlay content  =======-->
-
     <div class="search-overlay-content">
         <div class="input-box">
-            <form action="{% url 'products:products' %}">
+            <form action="{% url 'products:products' domain=current_site.name %}">
                 <input type="search" name="name" placeholder="{% trans 'Axtarış' %}">
             </form>
         </div>
     </div>
 
-    <!--=======  End of search overlay content  =======-->
 </div>
 
-<!--=======  End of search overlay  =======-->
-<!--=============================================
-=            quick view         =
-=============================================-->
 <div id="qv-1" class="cd-quick-view">
     <div class="cd-slider-wrapper">
         <div class="product-badge-wrapper">

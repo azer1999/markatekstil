@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="page-content-wrapper">
+        <div class="breadcrumb-area section-space--breadcrumb">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 offset-lg-3">
+                        <div class="breadcrumb-wrapper">
+                            <h2 class="page-title">{% trans 'Hesabım' %}</h2>
+                            <ul class="breadcrumb-list">
+                                <li><a href="{% url 'core:index' domain=current_site.name %}">{% trans "Ana Səhifə" %}</a></li>
+                                <li class="active">{% trans 'Hesabım' %}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="shopping-cart-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!--=======  cart table  =======-->
+                        <h3 class="text-capitalize pb-2">{% trans "Sifarişlər" %}</h3>
+                        <div class="cart-table-container">
+                            <table class="cart-table">
+                                <thead>
+                                <tr>
+                                    <th class="product-name" colspan="2">{% trans "Məhsul" %}</th>
+                                    <th class="product-price">{% trans "Qiymət" %}</th>
+                                    <th class="product-quantity">{% trans "Say" %}</th>
+                                    <th class="product-subtotal">{% trans "Toplam" %}</th>
+                                    <th class="product-remove">{% trans "Tarix" %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for order in request.user.user_orders.all %}
+                                    {% for item in order.items.all %}
+                                        <tr>
+                                        <td class="product-thumbnail">
+                                            <a href="{{ item.product.get_absolute_url }}">
+                                                <img src="{{ item.product.get_thumbnail }}" class="img-fluid"
+                                                     alt="">
+                                            </a>
+                                        </td>
+                                        <td class="product-name">
+                                            <a href="{{ item.product.get_absolute_url }}">{{ item.product.title }}</a>
+                                        </td>
+
+                                        <td class="product-price"><span class="price">{{ item.price }} AZN</span>
+                                        </td>
+
+                                        <td class="product-quantity">
+                                            <a href="#">{{ item.quantity }}</a>
+                                        </td>
+                                        <td class="total-price">
+                                            <span class="price">{{ item.get_total_item_cost }} AZN</span>
+                                        </td>
+                                        <td class="total-price">
+                                            <span class="price">{{ order.created }}</span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!--=======  End of cart table  =======-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

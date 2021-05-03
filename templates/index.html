@@ -76,9 +76,6 @@
 
             <div class="row">
                 <div class="col-lg-12">
-
-                    <!--=======  ctaegory grid wrapper  =======-->
-
                     <div class="category-grid-wrapper">
                         <div class="row">
                             {% for i in categories_list %}
@@ -204,7 +201,7 @@
                             <p class="subtitle">
                                 {% trans "Sualınızı və yə təklifinizi verin.Biz cavablandiraq" %}
                             </p>
-                            <a href="contact-us.html" class="theme-button theme-button--cta">{% trans "Sual ver" %}</a>
+                            <a href="{% url 'core:contact' domain=current_site.name %}" class="theme-button theme-button--cta">{% trans "Sual ver" %}</a>
                         </div>
                     </div>
 

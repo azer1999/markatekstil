@@ -19,7 +19,6 @@ class Cart(object):
         for p in product_ids:
             product_clean_ids.append(p)
             self.cart[str(p)]['product'] = Product.objects.get(pk=p)
-            print(self.cart)
 
         for item in self.cart.values():
             item['total_price'] = float(item['price']) * int(item['quantity'])
@@ -55,6 +54,7 @@ class Cart(object):
             return int(self.cart[str(product_id)]['quantity'])
         else:
             return 0
+
     def remove(self, product_id):
         if product_id in self.cart:
             del self.cart[product_id]

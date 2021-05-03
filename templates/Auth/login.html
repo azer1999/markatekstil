@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <div class="page-content-wrapper">
+        <div class="myaccount-wrapper pt-3">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-sm-12 col-md-12 offset-lg-3 col-lg-6 col-xs-12">
+                        <form method="post">
+                            {% csrf_token %}
+                            {% if login_error %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ login_error|escape }}</strong>
+                                </div>
+                            {% endif %}
+                            <div class="login-form">
+                                <h4 class="login-title">{% trans "Giriş" %}</h4>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label>{% trans "E-poçt və ya istifadəçi adı" %}</label>
+                                        <input type="text" name="username">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label>{% trans "Şifrə" %}</label>
+                                        <input type="password" name="password">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <a href="{% url 'user:register' %}">{% trans "Hesabınız yoxdur ?" %}</a>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <button class="theme-button">{% trans "Daxil ol" %}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--=======  End of my account wrapper  =======-->
+    </div>
+{% endblock %}
+

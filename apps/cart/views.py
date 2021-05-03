@@ -2,26 +2,28 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 import json
 
+from django.views import View
+
 from .cart import Cart
 from ..product.models import Product
 
 
-def cart_detail(request):
-    cart = Cart(request)
-    productsstring = ''
-
-    for item in cart:
-        product = item['product']
-        url = '/%s/%s/' % (product.category.slug, product.slug)
-        b = "{'id': '%s', 'title': '%s', 'price': '%s', 'quantity': '%s', 'total_price': '%s', 'thumbnail': '%s', 'url': '%s', 'num_available': '%s'}," % (
-            product.id, product.title, product.price, item['quantity'], item['total_price'], product.get_thumbnail, url,
-            product.num_available)
-
-        productsstring = productsstring + b
-
-    context = {}
-    context['cart'] = cart
-    return render(request, 'cart.html', context)
+class CartView(View):
+    template_name = 'cart.html'
+    def get(self, request, *args, **kwargs):
+        # cart = Cart(request)
+        # productsstring = ''
+        # for item in cart:
+        #     product = item['product']
+        #     url = '/%s/%s/' % (product.category.slug, product.slug)
+        #     b = "{'id': '%s', 'title': '%s', 'price': '%s', 'quantity': '%s', 'total_price': '%s', 'thumbnail': '%s', 'url': '%s', 'num_available': '%s'}," % (
+        #         product.id, product.title, product.price, item['quantity'], item['total_price'], product.get_thumbnail,
+        #         url,
+        #         product.num_available)
+        #
+        #     productsstring = productsstring + b
+        #     print(productsstring)
+        return render(request, self.template_name)
 
 
 def success(request):

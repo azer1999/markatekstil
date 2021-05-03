@@ -6,7 +6,7 @@ from core.models import ContactFeedback, Subscribe
 class ContactFeedbackForm(ModelForm):
     class Meta:
         model = ContactFeedback
-        fields = ('name','email','message')
+        fields = ('name','email','subject','message')
 
 class SubscribeForm(ModelForm):
     class Meta:

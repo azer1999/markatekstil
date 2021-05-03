@@ -26,9 +26,11 @@ urlpatterns = [
 
 urlpatterns += (
     path('', include('core.urls')),
-    path('', include('apps.product.urls')),
-    path('', include('apps.cart.urls')),
-    path('', include('apps.user.urls')),
+    path('mehsullar/', include('apps.product.urls')),
+    path('sifaris/', include('apps.order.urls')),
+    path('sebet/', include('apps.cart.urls')),
+    path('hesab/', include('apps.user.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
 )
 if settings.DEBUG:
     import debug_toolbar

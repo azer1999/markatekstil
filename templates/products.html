@@ -13,7 +13,7 @@
                     <div class="breadcrumb-wrapper">
                         <h2 class="page-title">{% trans "Məhsullar" %}</h2>
                         <ul class="breadcrumb-list">
-                            <li><a href="{% url 'core:index' %}">{% trans "Ana Səhifə" %}</a></li>
+                            <li><a href="{% url 'core:index' domain=current_site.name  %}">{% trans "Ana Səhifə" %}</a></li>
                             <li class="active">{% trans "Məhsullar" %}</li>
                         </ul>
                     </div>
@@ -81,7 +81,7 @@
                                 <h2 class="single-sidebar-widget__title">{% trans "Kateqoriyalar" %}</h2>
                                 <ul class="single-sidebar-widget__dropdown" id="single-sidebar-widget__dropdown">
                                     <li>
-                                        <a href="{% url 'products:products' %}">{% trans "Bütün Kateqoriyalar" %}</a>
+                                        <a href="{% url 'products:products' domain=current_site.name %}">{% trans "Bütün Kateqoriyalar" %}</a>
                                     </li>
                                     {% recursetree categories %}
                                         <li {% if node.has_children %} class="has-children" {% endif %}>

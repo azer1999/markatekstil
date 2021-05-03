@@ -1,0 +1,6 @@
+{% autoescape off %}
+    Salam {{ user.username }},
+    Zəhmət olmassa qeydiyyatı tamamlamaq üçün linkə keçid edin,
+    http://{{ domain }}{% url 'user:activate' uidb64=uid token=token %}
+    Qeydiyyatdan keçməmisinizsə və bu mesajın haradan gəldiyini bilmirsinizsə, bu mesajı görməməzlikdən gəlin.
+{% endautoescape %}

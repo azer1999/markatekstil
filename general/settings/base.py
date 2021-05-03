@@ -16,7 +16,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).parent.parent.parent
 AUTH_USER_MODEL = 'base_user.MyUser'
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -48,6 +47,7 @@ INSTALLED_APPS = [
     'colorfield',
     'apps.base_user',
     'apps.product',
+    'apps.order',
     'apps.cart',
     'apps.user',
     'core',
@@ -61,7 +61,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount'
 ]
 
-SITE_ID = 1
+DEFAULT_SITE_ID = 1
+SITE_ID = DEFAULT_SITE_ID
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,7 +72,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.locale.LocaleMiddleware'  # for translation
+    'django.middleware.locale.LocaleMiddleware',  # for translation
+    'general.conf_middleware.DynamicSiteDomainMiddleware',  # DynamicSiteDomainMiddleware
 ]
 
 ROOT_URLCONF = 'general.urls'
@@ -97,11 +99,11 @@ TEMPLATES = [
 WSGI_APPLICATION = 'general.wsgi.application'
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
+    'apps.base_user.backends.EmailOrUsernameAuthBackend',
     'allauth.account.auth_backends.AuthenticationBackend'
 )
 LOGIN_REDIRECT_URL = '/'
-
+LOGIN_URL = 'user:login'
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 

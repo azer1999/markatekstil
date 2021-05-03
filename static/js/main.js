@@ -25,7 +25,7 @@
                     }
                     $.ajax({
                         method: "POST",
-                        url: window.origin + '/api/add_to_cart/',
+                        url: window.origin + '/sebet/api/add_to_cart/',
                         data: JSON.stringify(data_send),
                         headers: {
                             'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val()
@@ -55,7 +55,7 @@
                     }
                     $.ajax({
                         method: "POST",
-                        url: window.origin + '/api/remove_from_cart/',
+                        url: window.origin + '/sebet/api/remove_from_cart/',
                         data: JSON.stringify(data_send),
                         headers: {
                             'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val()
@@ -92,7 +92,7 @@
                         if (oldValue > 0) {
                             var newVal = parseFloat(oldValue) - 1;
                         } else {
-                            newVal = 0;
+                            newVal = 1;
                         }
                     }
                     $button.parent().find('input').val(newVal);
@@ -103,7 +103,7 @@
                     }
                     $.ajax({
                         method: "POST",
-                        url: window.origin + '/api/add_to_cart/',
+                        url: window.origin + '/sebet/api/add_to_cart/',
                         data: JSON.stringify(data_send),
                         headers: {
                             'X-CSRFToken': $("input[name=csrfmiddlewaretoken]").val()
@@ -124,7 +124,6 @@
                     })
 
                 });
-
 
             },
         }

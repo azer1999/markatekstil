@@ -1,4 +1,7 @@
 from io import BytesIO
+
+from django.contrib.sites.managers import CurrentSiteManager
+from django.contrib.sites.models import Site
 from django.core.files import File
 from PIL import Image
 from colorfield.fields import ColorField
@@ -29,6 +32,10 @@ class Category(MPTTModel):
         verbose_name=_("Ana Kateqoriya")
     )
 
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    objects = models.Manager()
+    on_site = CurrentSiteManager()
+
     class MPTTMeta:
         order_insertion_by = ['name']
 
@@ -50,7 +57,8 @@ class Category(MPTTModel):
 
     def get_absolute_url(self):
         return reverse("products:products-category", kwargs={
-            'slug': self.slug
+            'slug': self.slug,
+            'domain': self.site.name
         })
 
     def save(self, *args, **kwargs):
@@ -87,7 +95,11 @@ class Product(models.Model):
     slug = models.SlugField(_("Slug"), blank=True, unique=True)
     price = models.PositiveIntegerField(_("Məhsul Qiyməti"))
     old_price = models.PositiveIntegerField(_("Köhnə Qiymət"), help_text=_(
-        "Məhsulun ENDİRİMDƏ olması üçün köhnə qiymət yeni qiymətdən çox olmalidir!"))
+        "Məhsulun ENDİRİMDƏ olması üçün köhnə qiymət yeni qiymətdən çox olmalidir!"),null=True,blank=True)
+
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    objects = models.Manager()
+    on_site = CurrentSiteManager()
 
     def __str__(self):
         return self.title
@@ -98,7 +110,8 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse("products:product-detail", kwargs={
-            'slug': self.slug
+            'slug': self.slug,
+            'domain': self.site.name
         })
 
     def get_related_products(self):

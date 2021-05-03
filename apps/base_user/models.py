@@ -11,23 +11,23 @@ USER_MODEL = settings.AUTH_USER_MODEL
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
-        _('username'),
+        _('İstifadəçi adı'),
         max_length=150,
         unique=True,
-        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        help_text=_('Tələb olunur. 150 simvol və ya daha az. Yalnız hərflər, rəqəmlər və @ /. / + / - / _.'),
         error_messages={
-            'unique': _("A user with that username already exists."),
+            'unique': _("Bu istifadəçi adli istifadəçi artıq mövcuddur."),
         }
     )
-    first_name = models.CharField(_('First Name'), max_length=30)
-    last_name = models.CharField(_('Last Name'), max_length=150)
-    birthdate = models.DateTimeField(_("Date of birth"),null=True, blank=True)
-    email = models.EmailField(_('Email Address'), unique=True,error_messages={
-            'unique': _("A user with that email already exists."),
-        })
-    profile_photo = models.ImageField(_("Profile photo *"), upload_to='profile_pic', default="default.jpg", null=True,
+    first_name = models.CharField(_('Ad'), max_length=30)
+    last_name = models.CharField(_('Soyad'), max_length=150)
+    birthdate = models.DateTimeField(_("Doğum Tarixi"), null=True, blank=True)
+    email = models.EmailField(_('E-poçt'), unique=True, error_messages={
+        'unique': _("Bu e-poçtu olan istifadəçi artıq mövcuddur."),
+    })
+    profile_photo = models.ImageField(_("Profil Şəkil *"), upload_to='profile_pic', default="default.jpg", null=True,
                                       blank=True)
-    gender = models.CharField(_("Gender"),choices=(
+    gender = models.CharField(_("Gender"), choices=(
         ("Male", _("Male")),
         ("Female", _("Female"))
     ), default="Male", max_length=30)
@@ -65,7 +65,6 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
         """
         full_name = '%s %s' % (self.first_name, self.last_name)
         return full_name.strip()
-
 
 
 User = MyUser()

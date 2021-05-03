@@ -1,4 +1,6 @@
 from ckeditor.fields import RichTextField
+from django.contrib.sites.managers import CurrentSiteManager
+from django.contrib.sites.models import Site
 from django.utils.translation import ugettext_lazy as _
 from django.db import models
 from pytz import unicode
@@ -40,21 +42,13 @@ class FAQ(models.Model):
 
 class Logo(models.Model):
     image = models.ImageField(upload_to='logo/images/')
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    objects = models.Manager()
+    on_site = CurrentSiteManager()
 
     class Meta:
         verbose_name = _("Loqo")
         verbose_name_plural = _("Loqo")
-
-    def __str__(self):
-        return unicode(f'{self.id}')
-
-
-class Contact(models.Model):
-    content = RichTextField(_("Məzmun"))
-
-    class Meta:
-        verbose_name = _("Əlaqə")
-        verbose_name_plural = _("Əlaqə")
 
     def __str__(self):
         return unicode(f'{self.id}')
@@ -76,6 +70,10 @@ class Slider(models.Model):
     text = models.CharField(_("Mətn"), max_length=55)
     button_url = models.URLField()
     button_text = models.CharField(_("Mətn"), max_length=55)
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    objects = models.Manager()
+    on_site = CurrentSiteManager()
+
     class Meta:
         verbose_name = _("Slayder")
         verbose_name_plural = _("Slayderlər")
@@ -114,6 +112,8 @@ class ContactInfo(models.Model):
     email = models.CharField(_("E-poçt"), max_length=55)
     address = models.CharField(_("Adres"), max_length=100)
 
+    text = models.CharField(_("Mətn"), max_length=150)
+
     class Meta:
         verbose_name = _("Əlaqə")
         verbose_name_plural = _("Əlaqə")
@@ -126,6 +126,8 @@ class ContactFeedback(models.Model):
     name = models.CharField(_("Adı"), max_length=55)
     email = models.EmailField(_("E-poçt"))
     message = models.TextField(_("Mesaj"))
+    subject = models.CharField(_("Mövzu"), max_length=55)
+    _("Mesaj")
 
     class Meta:
         verbose_name = _("Əlaqə muraciətləri")
@@ -144,3 +146,10 @@ class Subscribe(models.Model):
 
     def __str__(self):
         return unicode(self.email)
+
+
+class SiteImage(models.Model):
+    image = models.ImageField(upload_to='site/images/')
+    site = models.OneToOneField(Site,on_delete=models.CASCADE,related_name='site_images')
+    def __str__(self):
+        return f'{self.id}'
