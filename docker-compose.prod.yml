@@ -35,7 +35,7 @@ services:
     restart: "always"
     env_file: .env
     environment:
-      - VIRTUAL_HOST=46.101.115.95
+      - VIRTUAL_HOST=207.154.236.31
       - VIRTUAL_PORT=8000
       - TIMEOUT=300
       - HTTP_PORT=8000

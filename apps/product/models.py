@@ -169,17 +169,6 @@ class ProductImage(models.Model):
         verbose_name_plural = _("Məhsul Şəkilləri")
 
 
-class ProductPlan(models.Model):
-    image = models.ImageField(_("Mərtəbə Planları Şəkili"), upload_to='products/images/')
-    product = models.ForeignKey(Product, related_name="plan_images", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.id}'
-
-    class Meta:
-        verbose_name = _("Mərtəbə Planları")
-        verbose_name_plural = _("Mərtəbə Planları")
-
 
 class ProductProperty(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='properties', null=True, blank=True)

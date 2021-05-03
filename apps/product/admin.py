@@ -7,7 +7,7 @@ from django.utils.html import format_html
 from mptt.admin import MPTTModelAdmin
 
 from apps.product.admin_filter import PriceRangeFilterAdmin, AtDiscountFilterAdmin
-from apps.product.models import Product, Category, ProductImage, ProductProperty, ProductPlan, ProductLabel
+from apps.product.models import Product, Category, ProductImage, ProductProperty, ProductLabel
 
 
 class ProductImageInline(admin.StackedInline):
@@ -18,13 +18,11 @@ class ProductPropertyAdminInline(StackedInline):
     model = ProductProperty
 
 
-class ProductPlanAdminInline(StackedInline):
-    model = ProductPlan
 
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
-    inlines = [ProductImageInline, ProductPropertyAdminInline, ProductPlanAdminInline]
+    inlines = [ProductImageInline, ProductPropertyAdminInline]
     empty_value_display = '-empty-'
     list_display = ('title', 'category', 'price', 'old_price', 'image_tag', 'site',)
     list_editable = ('price', 'old_price', 'site',)
