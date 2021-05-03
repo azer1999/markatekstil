@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.utils.http import urlsafe_base64_decode
 from django.utils.translation import ugettext_lazy as _
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.tokens import default_token_generator
 
 # Create your views here.
@@ -55,7 +55,7 @@ class LoginView(View):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(reverse_lazy('core:index'))
+            return redirect(reverse('core:index',args=(get_current_site(request).name,)))
         else:
             return render(request, self.template_name,
                           {'login_error': _("İstifadəçi adı və yə şifrə düzgün qeyd olunmayıb")})
@@ -67,7 +67,7 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request, *args, **kwargs):
         logout(request)
-        return redirect('core:index')
+        return redirect(reverse('core:index',args=(get_current_site(request).name,)))
 
 
 class ProfileView(TemplateView):

@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.sites.models import Site
 from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.views import View
 from django.views.generic import TemplateView
 from apps.product.models import Category
@@ -72,7 +73,7 @@ class ContactView(View):
             form.save()
             messages.add_message(request, messages.INFO,
                                  _("Sualınız qeydə alındı.Sizinlə yaxın müddətdə əlaqə qurulacaq"))
-            return redirect('core:index')
+            return redirect(reverse('core:index',args=(get_current_site(request).name,)))
 
     def get(self, request, *args, **kwargs):
         context = {}
@@ -94,7 +95,7 @@ class SubscribeView(View):
             print(form.errors)
             messages.add_message(request, messages.INFO,
                                  _("Xəta baç verdi"))
-        return redirect('core:index')
+        return redirect(reverse('core:index',args=(get_current_site(request).name,)))
 
 
 def set_site(request, id):
