@@ -22,6 +22,7 @@ django-modeltranslation==0.17.1
 django-mptt==0.12.0
 django-rosetta==0.9.6
 django-widget-tweaks==1.4.8
+gunicorn==20.1.0
 idna==2.10
 importlib-metadata==4.0.1
 kombu==5.0.2
