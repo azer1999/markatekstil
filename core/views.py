@@ -30,7 +30,6 @@ class IndexSetPageView(TemplateView):
     template_name = 'index-set.html'
 
     def get_context_data(self, **kwargs):
-        print(get_current_site(self.request))
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
@@ -43,7 +42,6 @@ class AboutView(TemplateView):
     template_name = 'about.html'
 
     def get_context_data(self, **kwargs):
-        print(get_current_site(self.request))
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
@@ -56,7 +54,6 @@ class FaqView(TemplateView):
     template_name = 'faq.html'
 
     def get_context_data(self, **kwargs):
-        print(get_current_site(self.request))
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books

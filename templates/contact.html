@@ -11,7 +11,8 @@
                     <div class="breadcrumb-wrapper">
                         <h2 class="page-title">{% trans "Bizimlə Əlaqə" %}</h2>
                         <ul class="breadcrumb-list">
-                            <li><a href="{% url 'core:index' %}">{% trans "Ana Səhifə" %}</a></li>
+                            <li><a href="{% url 'core:index'  domain=current_site.name %}">{% trans "Ana Səhifə" %}</a>
+                            </li>
                             <li class="active">{% trans "Bizimlə Əlaqə" %}</li>
                         </ul>
                     </div>
