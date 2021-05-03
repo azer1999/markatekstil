@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 
@@ -36,9 +37,10 @@ class OrderView(View):
             cart.clear()
             messages.add_message(request, messages.INFO,
                                  _("Sifarişiniz qeydə alındı.Sizinlə yaxın müddətdə əlaqə qurulacaq"))
-            return redirect(reverse_lazy('core:index'))
+
+            return redirect(reverse_lazy('core:index'),{'domain':get_current_site(request).name})
         else:
-            return redirect(reverse_lazy('core:index'))
+            return redirect(reverse_lazy('core:index'),args={'domain':get_current_site(request).name})
 
     def get(self, request, *args, **kwargs):
         context = {}
