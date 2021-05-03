@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 
 # Create your views here.
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 
 from apps.base_user.models import MyUser
@@ -37,10 +37,9 @@ class OrderView(View):
             cart.clear()
             messages.add_message(request, messages.INFO,
                                  _("Sifarişiniz qeydə alındı.Sizinlə yaxın müddətdə əlaqə qurulacaq"))
-
-            return redirect(reverse_lazy('core:index'),{'domain':get_current_site(request).name})
+            return redirect(reverse('core:index',args=(get_current_site(request).name,)))
         else:
-            return redirect(reverse_lazy('core:index'),args={'domain':get_current_site(request).name})
+            return redirect(reverse('core:index',args=(get_current_site(request).name,)))
 
     def get(self, request, *args, **kwargs):
         context = {}
