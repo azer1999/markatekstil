@@ -25,7 +25,7 @@ class Cart(object):
             self.clear()
 
         for item in self.cart.values():
-            if 'prodcut_size' in item:
+            if 'product_size' in item:
                 price = item['product_size'].get_price
             else:
                 price = item['product'].get_default_size.get_price
