@@ -142,8 +142,10 @@
                             <div class="size" style="margin-bottom: 1rem">
                                 <select name="size" id="productSize" style="width: 200px;padding: 8px;border: none">
                                     {% for size in product.sizes.all %}
-                                        <option value="{{ size.id }}">
-                                            {{ size.value }} : {{ size.get_price }} AZN
+                                        <option value="{{ size.id }}"
+                                                data-product-getprice="{{ size.get_price }}"
+                                                data-product-price="{{ size.price }}">
+                                            Ölçü : {{ size.value }}
                                         </option>
                                     {% endfor %}
                                 </select>

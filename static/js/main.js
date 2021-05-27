@@ -128,8 +128,15 @@
                 $('#productSize').on('change', function (e) {
                     $(".add-to-cart").attr('data-product-size', $(this).val())
                     $(".count-holder").attr('data-product-size', $(this).val())
+                    $(".discounted-price").text($(this).attr('data-product-price'))
+                    var getprice = $('option:selected', this).attr('data-product-getprice')
+                    var price = $('option:selected', this).attr('data-product-price')
+                    $(".discounted").text('')
+                    if (getprice !== price) $(".discounted").text(price + 'AZN')
+                    $(".discounted-price").text(getprice + 'AZN')
+                    console.log(getprice)
+                    console.log(price)
                 })
-                $()
             },
         }
     }
