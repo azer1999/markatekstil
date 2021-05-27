@@ -13,7 +13,8 @@
                     <div class="breadcrumb-wrapper">
                         <h2 class="page-title">{% trans "Məhsullar" %}</h2>
                         <ul class="breadcrumb-list">
-                            <li><a href="{% url 'core:index' domain=current_site.name  %}">{% trans "Ana Səhifə" %}</a></li>
+                            <li><a href="{% url 'core:index' domain=current_site.name %}">{% trans "Ana Səhifə" %}</a>
+                            </li>
                             <li class="active">{% trans "Məhsullar" %}</li>
                         </ul>
                     </div>
@@ -167,8 +168,8 @@
                                         <div class="single-grid-product">
                                             <div class="single-grid-product__image">
                                                 <div class="product-badge-wrapper">
-                                                    {% if i.old_price %}
-                                                        <span class="onsale">{{ i.get_discount }}%</span>{% endif %}
+                                                    {% if i.discount_percent %}
+                                                        <span class="onsale">{{ i.discount_percent }}%</span>{% endif %}
                                                     {% for label in i.labels.all %}
                                                         <span class="hot"
                                                               style="background-color: {{ label.color }}">{{ label.text }}</span>
@@ -178,7 +179,6 @@
                                                     <img src="{{ i.image.url }}"
                                                          class="img-fluid"
                                                          alt="">
-
                                                 </a>
                                                 <div class="product-hover-icon-wrapper">
                                                 <span class="single-icon single-icon--quick-view">
@@ -208,6 +208,7 @@
                                                             <a href="#"
                                                                class="add-to-cart"
                                                                data-product-id="{{ i.id }}"
+                                                               data-product-size="{{ i.get_default_size.id }}"
                                                                data-tippy="{% trans 'Səbətə at' %}"
                                                                data-tippy-inertia="true"
                                                                data-tippy-animation="shift-away"
@@ -226,10 +227,11 @@
                                                     {{ i.brief_info }}
                                                 </p>
                                                 <div class="price">
-                                                    {% if i.old_price %}
-                                                        <span class="main-price discounted">{{ i.old_price }} AZN</span>
+                                                    {% if i.discount_percent %}
+                                                        <span class="main-price discounted">{{ i.get_default_size.price }} AZN</span>
                                                     {% endif %}
-                                                    <span class="discounted-price">{{ i.price }} AZN</span></div>
+                                                    <span class="discounted-price">{{ i.get_default_size.get_price }} AZN</span>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -241,8 +243,8 @@
 
                                             <div class="single-list-product__image">
                                                 <div class="product-badge-wrapper">
-                                                    {% if i.old_price %}
-                                                        <span class="onsale">{{ i.get_discount }}%</span>{% endif %}
+                                                    {% if i.discount_percent %}
+                                                        <span class="onsale">- {{ i.discount_percent }}%</span>{% endif %}
                                                     {% for label in i.labels.all %}
                                                         <span class="hot"
                                                               style="background-color: {{ label.color }}">{{ label.text }}</span>
@@ -264,10 +266,11 @@
                                                     {{ i.brief_info }}
                                                 </p>
                                                 <div class="price">
-                                                    {% if i.old_price %}
-                                                        <span class="main-price discounted">{{ i.old_price }} AZN</span>
+                                                    {% if i.discount_percent %}
+                                                        <span class="main-price discounted">{{ i.get_default_size.price }} AZN</span>
                                                     {% endif %}
-                                                    <span class="discounted-price">{{ i.price }} AZN</span></div>
+                                                    <span class="discounted-price">{{ i.get_default_size.get_price }} AZN</span>
+                                                </div>
                                                 <p class="product-short-desc">
                                                     {{ i.brief_info }}
                                                 </p>
@@ -279,7 +282,8 @@
                                                                                                      data-tippy-animation="shift-away"
                                                                                                      data-tippy-delay="50"
                                                                                                      data-tippy-arrow="true"
-                                                                                                     data-tippy-theme="sharpborder"><i
+                                                                                                     data-tippy-theme="sharpborder">
+                                                    <i
                                                         class="fa fa-search"></i></a></span>
                                                     <span class="single-icon single-icon--add-to-cart">
                                                         {% if productCart.in_cart %}
@@ -297,6 +301,7 @@
                                                             <a href="#"
                                                                class="add-to-cart"
                                                                data-product-id="{{ i.id }}"
+                                                               data-product-size="{{ i.get_default_size.id }}"
                                                                data-tippy="{% trans 'Səbətə at' %}"
                                                                data-tippy-inertia="true"
                                                                data-tippy-animation="shift-away"

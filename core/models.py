@@ -150,6 +150,8 @@ class Subscribe(models.Model):
 
 class SiteImage(models.Model):
     image = models.ImageField(upload_to='site/images/')
-    site = models.OneToOneField(Site,on_delete=models.CASCADE,related_name='site_images')
+    site = models.OneToOneField(Site, on_delete=models.CASCADE, related_name='site_images')
+    logo = models.ImageField(upload_to='site/logo/')
+
     def __str__(self):
         return f'{self.id}'

@@ -93,16 +93,20 @@ class Product(models.Model):
     content = RichTextField(_("Məhsul Məzmunu"))
     category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="category_products")
     slug = models.SlugField(_("Slug"), blank=True, unique=True)
-    price = models.PositiveIntegerField(_("Məhsul Qiyməti"))
-    old_price = models.PositiveIntegerField(_("Köhnə Qiymət"), help_text=_(
-        "Məhsulun ENDİRİMDƏ olması üçün köhnə qiymət yeni qiymətdən çox olmalidir!"),null=True,blank=True)
-
+    discount_percent = models.PositiveIntegerField(_("Məhsul endirim faizi"), default=0)
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     objects = models.Manager()
     on_site = CurrentSiteManager()
 
     def __str__(self):
         return self.title
+
+    @property
+    def get_default_size(self):
+        sizes = ProductSize.objects.filter(product=self).order_by('price')
+        if len(sizes):
+            return sizes[0]
+        return None
 
     class Meta:
         verbose_name = _("Məhsul")
@@ -115,12 +119,8 @@ class Product(models.Model):
         })
 
     def get_related_products(self):
-        return Product.objects.filter(category__in=self.category.get_descendants(include_self=True)).exclude(pk=self.pk).all()[:20]
-
-    def get_discount(self):
-        if self.old_price:
-            print(self.price * 100 / self.old_price - 100)
-            return math.ceil(self.price * 100 / self.old_price - 100)
+        return Product.objects.filter(category__in=self.category.get_descendants(include_self=True)).exclude(
+            pk=self.pk).all()[:20]
 
     def get_thumbnail(self):
         if self.thumbnail:
@@ -157,6 +157,22 @@ class Product(models.Model):
         super(Product, self).save(*args, **kwargs)
 
 
+class ProductSize(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="sizes")
+    price = models.PositiveIntegerField(_("Qiymət"))
+    value = models.CharField(_("Ölçü"), max_length=55)
+
+    @property
+    def get_price(self):
+        price = self.price
+        if self.product.discount_percent != 0:
+            price = math.ceil(price - (self.product.discount_percent / 100 * price))
+        return price
+
+    def __str__(self):
+        return f'{self.product.title} > {self.value} > {self.price}'
+
+
 class ProductImage(models.Model):
     image = models.ImageField(_("Məhsul Şəkili"), upload_to='products/images/')
     product = models.ForeignKey(Product, related_name="images", on_delete=models.CASCADE)
@@ -167,7 +183,6 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = _("Məhsul Şəkili")
         verbose_name_plural = _("Məhsul Şəkilləri")
-
 
 
 class ProductProperty(models.Model):

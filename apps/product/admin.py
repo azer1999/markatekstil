@@ -7,7 +7,7 @@ from django.utils.html import format_html
 from mptt.admin import MPTTModelAdmin
 
 from apps.product.admin_filter import PriceRangeFilterAdmin, AtDiscountFilterAdmin
-from apps.product.models import Product, Category, ProductImage, ProductProperty, ProductLabel
+from apps.product.models import Product, Category, ProductImage, ProductProperty, ProductLabel, ProductSize
 
 
 class ProductImageInline(admin.StackedInline):
@@ -18,14 +18,16 @@ class ProductPropertyAdminInline(StackedInline):
     model = ProductProperty
 
 
+class ProductSizeAdminInline(StackedInline):
+    model = ProductSize
 
 
 @admin.register(Product)
 class ProductAdmin(ModelAdmin):
-    inlines = [ProductImageInline, ProductPropertyAdminInline]
+    inlines = [ProductSizeAdminInline, ProductImageInline, ProductPropertyAdminInline]
     empty_value_display = '-empty-'
-    list_display = ('title', 'category', 'price', 'old_price', 'image_tag', 'site',)
-    list_editable = ('price', 'old_price', 'site',)
+    list_display = ('title','category', 'image_tag', 'site',)
+    list_editable = ('site',)
     list_display_links = ('title',)
 
     list_filter = (AtDiscountFilterAdmin, PriceRangeFilterAdmin, 'site',)
@@ -34,8 +36,6 @@ class ProductAdmin(ModelAdmin):
     @admin.display(description=_("Şəkil"))
     def image_tag(self, obj):
         return format_html('<img src="{}" />'.format(obj.get_thumbnail()))
-
-
 
 
 admin.site.register(Category, MPTTModelAdmin)

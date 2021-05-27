@@ -10,7 +10,8 @@
                     <div class="breadcrumb-wrapper">
                         <h2 class="page-title">{% trans "Səbət" %}</h2>
                         <ul class="breadcrumb-list">
-                            <li><a href="{% url 'core:index' domain=current_site.name %}">{% trans "Ana Səhifə" %}</a></li>
+                            <li><a href="{% url 'core:index' domain=current_site.name %}">{% trans "Ana Səhifə" %}</a>
+                            </li>
                             <li class="active">{% trans "Səbət" %}</li>
                         </ul>
                     </div>
@@ -53,15 +54,17 @@
                                         </td>
                                         <td class="product-name">
                                             <a href="{{ i.product.get_absolute_url }}">{{ i.product.title }}</a>
-                                            <span class="product-variation">Color: Black</span>
+                                            <span class="product-variation">{{ i.product_size.value }}</span>
                                         </td>
 
-                                        <td class="product-price"><span class="price">{{ i.product.price }} AZN</span>
+                                        <td class="product-price"><span
+                                                class="price">{{ i.product_size.get_price }} AZN</span>
                                         </td>
-
                                         <td class="product-quantity">
                                             <div class="pro-qty d-inline-block mx-0">
-                                                <input class="count-holder" data-product-id="{{ i.product.id }}"
+                                                <input class="count-holder"
+                                                       data-product-id="{{ i.product.id }}"
+                                                       data-product-size="{{ product.get_default_size }}"
                                                        type="text" value="{{ i.quantity }}">
                                             </div>
                                         </td>
@@ -100,7 +103,8 @@
                                                     <input type="text" placeholder="Enter your coupon code">
                                                 </div>
                                                 <div class="col-md-5 col-sm-5">
-                                                    <button class="theme-button theme-button--silver">APPLY COUPON</button>
+                                                    <button class="theme-button theme-button--silver">APPLY COUPON
+                                                    </button>
                                                 </div>
                                             </div>
                                         </form>
@@ -111,7 +115,8 @@
 
                                 <div class="col-lg-6 text-left text-lg-right">
                                     <!--=======  update cart button  =======-->
-                                    <a href="{% url 'cart:cart' %}" class="theme-button">{% trans "Yenidən Hesabla" %}</a>
+                                    <a href="{% url 'cart:cart' %}"
+                                       class="theme-button">{% trans "Yenidən Hesabla" %}</a>
                                     <!--=======  End of update cart button  =======-->
                                 </div>
                             </div>
@@ -132,7 +137,8 @@
                             </table>
 
                             <div class="cart-calculation-button">
-                                <a href="{% url 'order:checkout' %}" class="theme-button theme-button--alt theme-button--checkout">
+                                <a href="{% url 'order:checkout' %}"
+                                   class="theme-button theme-button--alt theme-button--checkout">
                                     {% trans "Sifariş bölməsinə keç" %}
                                 </a>
                             </div>

@@ -10,8 +10,11 @@
                     <div class="breadcrumb-wrapper">
                         <h2 class="page-title">{% trans "Məhsullar" %}</h2>
                         <ul class="breadcrumb-list">
-                            <li><a href="{% url 'core:index' domain=current_site.name  %}">{% trans "Ana Səhifə" %}</a></li>
-                            <li><a href="{% url 'products:products' domain=current_site.name  %}">{% trans "Məhsullar" %}</a></li>
+                            <li><a href="{% url 'core:index' domain=current_site.name %}">{% trans "Ana Səhifə" %}</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'products:products' domain=current_site.name %}">{% trans "Məhsullar" %}</a>
+                            </li>
                             <li class="active">{{ product.title }}</li>
                         </ul>
                     </div>
@@ -118,8 +121,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <!--=======  End of product details slider area  =======-->
@@ -130,17 +131,28 @@
                         <div class="product-details-description-wrapper">
                             <h2 class="item-title">{{ product.title }}</h2>
                             <p class="price">
-                                {% if product.old_price %}
-                                    <span class="main-price discounted">{{ product.old_price }} AZN</span>
+                                {% if product.discount_percent %}
+                                    <span class="main-price discounted">{{ product.get_default_size.price }} AZN</span>
                                 {% endif %}
-                                <span class="discounted-price">{{ product.price }} AZN</span>
+                                <span class="discounted-price">{{ product.get_default_size.get_price }} AZN</span>
                             </p>
                             <p class="description">
                                 {{ product.brief_info }}
                             </p>
-
+                            <div class="size" style="margin-bottom: 1rem">
+                                <select name="size" id="productSize" style="width: 200px;padding: 8px;border: none">
+                                    {% for size in product.sizes.all %}
+                                        <option value="{{ size.id }}">
+                                            {{ size.value }} : {{ size.get_price }} AZN
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                             <div class="pro-qty d-inline-block">
-                                <input class="count-holder" data-product-id="{{ product.id }}" type="text"
+                                <input class="count-holder"
+                                       data-product-id="{{ product.id }}"
+                                       data-product-size="{{ product.get_default_size.id }}"
+                                       type="text"
                                        value="{{ productCart.count }}">
                             </div>
                             <div class="action-btns d-inline-block">
@@ -151,6 +163,7 @@
                                     </button>
                                 {% else %}
                                     <button data-product-id="{{ product.id }}"
+                                            data-product-size="{{ product.get_default_size.id }}"
                                             class="add-to-cart theme-button theme-button--alt">
                                         {% trans "Səbətə At" %}
                                     </button>

@@ -16,7 +16,8 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
-        print(get_current_site(self.request))
+        print(get_current_site(self.request),"+++++")
+
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
@@ -34,7 +35,7 @@ class IndexSetPageView(TemplateView):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
-        context['sites'] = Site.objects.all()
+        # context['sites'] = Site.objects.all()
         return context
 
 

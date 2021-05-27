@@ -10,6 +10,7 @@ from ..product.models import Product
 
 class CartView(View):
     template_name = 'cart.html'
+
     def get(self, request, *args, **kwargs):
         # cart = Cart(request)
         # productsstring = ''
@@ -38,14 +39,15 @@ def api_add_to_cart(request):
     product_id = data['product_id']
     update = data['update']
     quantity = data['quantity']
+    size = data['size']
 
     cart = Cart(request)
     product = get_object_or_404(Product, pk=product_id)
 
     if not update:
-        cart.add(product=product, quantity=1, update_quantity=False)
+        cart.add(product=product, size=size, quantity=1, update_quantity=False)
     else:
-        cart.add(product=product, quantity=quantity, update_quantity=True)
+        cart.add(product=product, size=size, quantity=quantity, update_quantity=True)
     cart = Cart(request)
     jsonresponse = {'success': True, 'quantity': cart.get_product_quantity(product_id)}
     return JsonResponse(jsonresponse)

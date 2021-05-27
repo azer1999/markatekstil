@@ -39,13 +39,48 @@
 
 
 <div class="header-area header-area--one header-sticky">
-
+    <div class="header-navigation-top">
+        <div class="container wide">
+            <div class="row align-items-center">
+                <div class="col-8">
+                    <div class="header-top-content-wrapper">
+                        <div class="header-contact-info-wrapper">
+                            <ul class="header-contact-info__list">
+                                <li>
+                                    <a href="{% url 'core:about'   domain=current_site.name %}">{% trans "Haqqımızda" %}</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'core:contact'  domain=current_site.name %}">{% trans "Əlaqə" %}</a>
+                                </li>
+                                <li>
+                                    <a href="{% url 'core:faq'  domain=current_site.name %}">{% trans "FAQ" %}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="header-top-content-wrapper justify-content-end">
+                        <div class="header-top-dropdown border-left-0 border-right-0">
+                            <a href="#">{% trans 'Səhifəni deyiş' %} <i class="pe-7s-angle-down"></i></a>
+                            <ul class="header-top-dropdown__list">
+                                {% for site in sites %}
+                                    <li><a href="{% url 'core:index' domain=site.name %}">
+                                        {{ site.name }}
+                                    </a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="header-info-area d-none d-lg-block">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="header-info-wrapper">
-
                         <div class="header-contact-info">
                             <ul class="header-contact-info__list">
                                 <li><i class="pe-7s-phone"></i> <a
@@ -58,7 +93,8 @@
 
                         <div class="header-logo text-center">
                             <a href="{% url 'core:index' domain=current_site.name %}">
-                                <img src="{{ logo.image.url }}" style="max-width: 200px" class="img-fluid" alt="">
+                                <img src="{{ current_site.site_images.logo.url }}" style="max-width: 100px"
+                                     class="img-fluid" alt="">
                             </a>
                         </div>
 
@@ -97,7 +133,7 @@
                                                                 </a></p>
                                                             <p class="product-calculation">
                                                                 <span class="count">{{ i.quantity }}</span> x
-                                                                <span class="price">{{ i.product.price }} AZN</span>
+                                                                <span class="price">{{ i.product_size.get_price }} AZN</span>
                                                             </p>
                                                         </div>
                                                     </div>
@@ -109,7 +145,7 @@
                                             </p>
 
                                             <div class="minicart-wrapper__buttons">
-                                                <a href="{% url 'cart:cart'  %}"
+                                                <a href="{% url 'cart:cart' %}"
                                                    class="theme-button theme-button--minicart-button">
                                                     {% trans "Səbətə keç" %}
                                                 </a>
@@ -138,7 +174,8 @@
                 <div class="col-lg-2">
                     <div class="header-logo header-logo--sticky">
                         <a href="index.html">
-                            <img src="{{ logo.image.url }}" class="img-fluid" alt="">
+                            <img style="max-width: 80px" src="{{ current_site.site_images.logo.url }}" class="img-fluid"
+                                 alt="">
                         </a>
                     </div>
                 </div>
@@ -209,7 +246,7 @@
                                                             </a></p>
                                                         <p class="product-calculation">
                                                             <span class="count">{{ i.quantity }}</span> x
-                                                            <span class="price">{{ i.product.price }} AZN</span>
+                                                            <span class="price">{{ i.product_size.get_price }} AZN</span>
                                                         </p>
                                                     </div>
                                                 </div>
@@ -249,7 +286,8 @@
                 <div class="col-6 col-md-6">
                     <div class="header-logo">
                         <a href="{% url 'core:index' domain=current_site.name %}">
-                            <img src="{{ logo.image.url }}" class="img-fluid" alt="">
+                            <img style="max-width: 100px !important" src="{{ logo.image.url }}" class="img-fluid"
+                                 alt="">
                         </a>
                     </div>
                 </div>
