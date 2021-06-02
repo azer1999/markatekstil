@@ -11,7 +11,7 @@ from apps.base_user.models import MyUser
 from apps.cart.cart import Cart
 from apps.order.forms import OrderForm
 from apps.order.models import OrderItem
-from core.tools import get_or_none
+from core.tools import get_or_none, MailAdmin
 
 
 class OrderView(View):
@@ -35,11 +35,13 @@ class OrderView(View):
                 )
                 item.save()
             cart.clear()
+            MailAdmin(context={'order': order}, template='order_notify.html', subject='Test').send_mail()
+
             messages.add_message(request, messages.INFO,
                                  _("Sifarişiniz qeydə alındı.Sizinlə yaxın müddətdə əlaqə qurulacaq"))
-            return redirect(reverse('core:index',args=(get_current_site(request).name,)))
+            return redirect(reverse('core:index', args=(get_current_site(request).name,)))
         else:
-            return redirect(reverse('core:index',args=(get_current_site(request).name,)))
+            return redirect(reverse('core:index', args=(get_current_site(request).name,)))
 
     def get(self, request, *args, **kwargs):
         context = {}

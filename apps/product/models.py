@@ -1,5 +1,6 @@
 from io import BytesIO
 
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.sites.managers import CurrentSiteManager
 from django.contrib.sites.models import Site
 from django.core.files import File
@@ -90,10 +91,11 @@ class Product(models.Model):
 
     title = models.CharField(_("Məhsul Başlıqı"), max_length=100)
     brief_info = models.TextField(_("Qısa Məlumat"), max_length=100)
-    content = RichTextField(_("Məhsul Məzmunu"))
+    content = RichTextUploadingField(_("Məhsul Məzmunu"))
     category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name="category_products")
     slug = models.SlugField(_("Slug"), blank=True, unique=True)
     discount_percent = models.PositiveIntegerField(_("Məhsul endirim faizi"), default=0)
+    in_stock = models.BooleanField(_("Stokda var"), default=True)
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     objects = models.Manager()
     on_site = CurrentSiteManager()

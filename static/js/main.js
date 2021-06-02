@@ -134,8 +134,6 @@
                     $(".discounted").text('')
                     if (getprice !== price) $(".discounted").text(price + 'AZN')
                     $(".discounted-price").text(getprice + 'AZN')
-                    console.log(getprice)
-                    console.log(price)
                 })
             },
         }

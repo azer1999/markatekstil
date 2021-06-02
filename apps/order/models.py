@@ -27,7 +27,7 @@ class Order(models.Model):
     @property
     @admin.display(description=_("Ümumi Qiymət"))
     def get_total_cost(self):
-        return sum(item.get_cost() for item in self.items.all())
+        return sum(item.get_total_item_cost for item in self.items.all())
 
 
 class OrderItem(models.Model):

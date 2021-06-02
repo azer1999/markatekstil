@@ -21,7 +21,7 @@
 
 </head>
 
-<body>
+<body style="overflow-x: hidden !important">
 
 <div class="header-offer-sticker text-center">
     <div class="container">
@@ -173,7 +173,7 @@
             <div class="row align-items-center">
                 <div class="col-lg-2">
                     <div class="header-logo header-logo--sticky">
-                        <a href="index.html">
+                        <a href="{% url 'core:index' domain=current_site.name %}">
                             <img style="max-width: 80px" src="{{ current_site.site_images.logo.url }}" class="img-fluid"
                                  alt="">
                         </a>
@@ -298,6 +298,9 @@
                                 <a href="{% url 'cart:cart' %}"><i class="fa fa-shopping-basket"></i><span
                                         class="item-count">{{ cart.get_total_items }}</span></a>
                             </li>
+                            <li>
+                                <a href="{% url 'user:profile' %}"><i class="fa fa-user-circle"></i></a>
+                            </li>
                             <li><a href="javascript:void(0)" class="mobile-menu-icon" id="mobile-menu-trigger"><i
                                     class="fa fa-bars"></i></a></li>
                         </ul>
@@ -354,7 +357,7 @@
                     </div>
                     <div class="off-canvas-widget-social">
                         {% for i in media %}
-                            <a href="{{ i.media.url }}" title="{{ i.media }}"><i class="fa fa-{{ i.media }}"></i></a>
+                            <a href="{{ i.url }}" title="{{ i.media }}"><i class="fa fa-{{ i.media }}"></i></a>
                         {% endfor %}
                     </div>
                 </div>

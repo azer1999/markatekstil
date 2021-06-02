@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_available_languages as LANGUAGES %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Markatekstil.az</title>
+</head>
+<body>
+
+
+<h3>{% trans "Sifariş olunan məhsullar" %}</h3>
+
+<table style="border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);">
+    <thead>
+    <tr style="background-color: #009879;color: #ffffff;text-align: left;">
+        <th style="padding: 12px 15px;">{% trans 'Məhsul' %}</th>
+        <th style="padding: 12px 15px;">{% trans 'Say' %}</th>
+        <th style="padding: 12px 15px;">{% trans 'Qiymət' %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in order.items.all %}
+        <tr style="border-bottom: 1px solid #dddddd;{% if forloop.counter|divisibleby:2 %}background-color: #f3f3f3;{% else %}{% endif %}">
+            <td style="padding: 12px 15px;">{{ i.product.title }}</td>
+            <td style="padding: 12px 15px;">x{{ i.quantity }}</td>
+            <td style="padding: 12px 15px;">{{ i.get_total_item_cost }} AZN</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<table style="border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);">
+    <thead>
+    <tr style="background-color: #009879;color: #ffffff;text-align: left;">
+        <th style="padding: 12px 15px;">{% trans 'Ümumi qiymət' %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr style="border-bottom: 1px solid #dddddd;background-color: #f3f3f3;">
+        <td style="padding: 12px 15px;"><span style="font-weight: bold">{{ order.get_total_cost }} AZN</span></td>
+    </tr>
+    </tbody>
+</table>
+
+
+<hr>
+
+<h3>{% trans "Əlaqə məlumatları" %}</h3>
+
+<table style="border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);">
+    <thead>
+    <tr style="background-color: #009879;color: #ffffff;text-align: left;">
+        <th style="padding: 12px 15px;">{% trans 'Ad' %}</th>
+        <th style="padding: 12px 15px;">{% trans 'Soyad' %}</th>
+        <th style="padding: 12px 15px;">{% trans 'Ələqə nomrəsı' %}</th>
+        <th style="padding: 12px 15px;">{% trans 'Ünvan' %}</th>
+        <th style="padding: 12px 15px;">{% trans 'Şəhər/Bölgə' %}</th>
+        <th style="padding: 12px 15px;">{% trans 'E-poçt' %}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr style="border-bottom: 1px solid #dddddd;">
+        <td style="padding: 12px 15px;">{{ order.first_name }}</td>
+        <td style="padding: 12px 15px;">{{ order.last_name }}</td>
+        <td style="padding: 12px 15px;">{{ order.phone }}</td>
+        <td style="padding: 12px 15px;">{{ order.address }}</td>
+        <td style="padding: 12px 15px;">{{ order.city }}</td>
+        <td style="padding: 12px 15px;">{{ order.email }}</td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
