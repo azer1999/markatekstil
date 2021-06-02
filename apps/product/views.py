@@ -14,6 +14,7 @@ class ProductView(ListView):
     template_name = 'products.html'
     context_object_name = 'products'
     model = Product
+    paginate_by = 10
 
     def get_queryset(self):
         if 'name' in self.request.GET:
