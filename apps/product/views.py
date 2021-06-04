@@ -14,7 +14,7 @@ class ProductView(ListView):
     template_name = 'products.html'
     context_object_name = 'products'
     model = Product
-    paginate_by = 10
+    paginate_by = 9
 
     def get_queryset(self):
         if 'name' in self.request.GET:
@@ -27,7 +27,7 @@ class ProductView(ListView):
 class ProductsCategoryDetailView(ListView):
     template_name = 'products.html'
     context_object_name = 'products'
-    paginate_by = 10
+    paginate_by = 9
 
     def get_queryset(self):
         category = get_object_or_404(Category, slug=self.kwargs['slug'])

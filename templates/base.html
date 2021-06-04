@@ -1,7 +1,7 @@
 {% load mptt_tags %}
 {% load i18n %}
 <!DOCTYPE html>
-<html class="no-js" lang="zxx">
+<html class="no-js" lang="zxx" style="    overflow-x: hidden;">
 
 
 <head>
@@ -62,7 +62,8 @@
                 <div class="col-4">
                     <div class="header-top-content-wrapper justify-content-end">
                         <div class="header-top-dropdown border-left-0 border-right-0">
-                            <a href="#">{% trans 'Səhifəni deyiş' %} <i class="pe-7s-angle-down"></i></a>
+                            <a style="color: black;font-weight: bold" href="#">{% trans 'Səhifəni deyiş' %} <i
+                                    class="pe-7s-angle-down"></i></a>
                             <ul class="header-top-dropdown__list">
                                 {% for site in sites %}
                                     <li><a href="{% url 'core:index' domain=site.name %}">
@@ -130,7 +131,8 @@
                                                             <p class="product-title">
                                                                 <a href="{{ i.product.get_absolute_url }}">
                                                                     {{ i.product.title }}
-                                                                </a></p>
+                                                                </a>
+                                                            </p>
                                                             <p class="product-calculation">
                                                                 <span class="count">{{ i.quantity }}</span> x
                                                                 <span class="price">{{ i.product_size.get_price }} AZN</span>
@@ -167,8 +169,12 @@
             </div>
         </div>
     </div>
-
-    <div class="header-navigation-area header-navigation-area--dark d-none d-lg-block">
+    <style>
+        .header-navigation-area--white nav > ul > li.has-children > a {
+            color: black;
+        }
+    </style>
+    <div class="header-navigation-area header-navigation-area--white d-none d-lg-block">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-2">
@@ -357,7 +363,7 @@
                     </div>
                     <div class="off-canvas-widget-social">
                         {% for i in media %}
-                            <a href="{{ i.url }}" title="{{ i.media }}"><i class="fa fa-{{ i.media }}"></i></a>
+                            <a href="{{ i.link }}" title="{{ i.media }}"><i class="fa fa-{{ i.media }}"></i></a>
                         {% endfor %}
                     </div>
                 </div>
