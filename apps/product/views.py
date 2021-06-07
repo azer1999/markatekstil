@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, ListView, DetailView
 
 from apps.cart.cart import Cart
 from apps.product.models import Product, Category
+from core.models import Slider
 
 
 class ProductView(ListView):
@@ -22,6 +23,14 @@ class ProductView(ListView):
         else:
             queryset = Product.objects.filter(site=settings.SITE_ID)
             return queryset
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['slider'] = Slider.on_site.all()
+
+        return context
 
 
 class ProductsCategoryDetailView(ListView):
@@ -39,6 +48,8 @@ class ProductsCategoryDetailView(ListView):
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         context['current_category'] = get_object_or_404(Category, slug=(self.kwargs['slug']))
+        context['slider'] = Slider.on_site.all()
+
         return context
 
 

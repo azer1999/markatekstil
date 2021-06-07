@@ -65,6 +65,28 @@ class About(models.Model):
         return unicode(f'{self.id}')
 
 
+class Delivery(models.Model):
+    content = RichTextField(_("Mətn"))
+
+    class Meta:
+        verbose_name = _("Çatdırılma")
+        verbose_name_plural = _("Çatdırılma")
+
+    def __str__(self):
+        return unicode(f'{self.id}')
+
+
+class PayMethods(models.Model):
+    content = RichTextField(_("Mətn"))
+
+    class Meta:
+        verbose_name = _("Odəmə üsulları")
+        verbose_name_plural = _("Odəmə üsulları")
+
+    def __str__(self):
+        return unicode(f'{self.id}')
+
+
 class Slider(models.Model):
     image = models.ImageField(upload_to='core/slider/images')
     text = models.CharField(_("Mətn"), max_length=55)

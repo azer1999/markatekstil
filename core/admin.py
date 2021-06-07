@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.sites.models import Site
 
 from core.models import Partner, Slider, SocialMedia, ContactInfo, About, ContactFeedback, Advantage, Logo, FAQ, \
-    Subscribe, SiteImage
+    Subscribe, SiteImage, Delivery, PayMethods
 
 admin.site.register(Partner)
 admin.site.register(Subscribe)
@@ -14,6 +14,8 @@ admin.site.register(About)
 admin.site.register(ContactFeedback)
 admin.site.register(Advantage)
 admin.site.register(FAQ)
+admin.site.register(Delivery)
+admin.site.register(PayMethods)
 
 # Admin
 admin.site.unregister(Site)

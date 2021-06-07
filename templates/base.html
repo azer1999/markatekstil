@@ -1,7 +1,7 @@
 {% load mptt_tags %}
 {% load i18n %}
 <!DOCTYPE html>
-<html class="no-js" lang="zxx" style="    overflow-x: hidden;">
+<html class="no-js" lang="zxx" style="overflow-x: hidden;">
 
 
 <head>
@@ -21,7 +21,7 @@
 
 </head>
 
-<body style="overflow-x: hidden !important">
+<body>
 
 <div class="header-offer-sticker text-center">
     <div class="container">
@@ -36,10 +36,29 @@
         </div>
     </div>
 </div>
+<style>
+    .blink {
+        -webkit-animation: blink-anim 2s infinite; /* Safari 4+ */
+        -moz-animation: blink-anim 2s infinite; /* Fx 5+ */
+        -o-animation: blink-anim 2s infinite; /* Opera 12+ */
+        animation: blink-anim 2s infinite; /* IE 10+, Fx 29+ */
+    }
 
+    @-webkit-keyframes blink-anim {
+        from {
+            color: rgb(246, 246, 246);
+        }
+        50% {
+            color: #ff0000;
+        }
+        to {
+            color: #FFFFFF;
+        }
+    }
+</style>
 
-<div class="header-area header-area--one header-sticky">
-    <div class="header-navigation-top">
+<div class="header-area header-area--default header-area--default--white header-sticky">
+    <div class="header-navigation-top" style="background: #000;">
         <div class="container wide">
             <div class="row align-items-center">
                 <div class="col-8">
@@ -47,13 +66,24 @@
                         <div class="header-contact-info-wrapper">
                             <ul class="header-contact-info__list">
                                 <li>
-                                    <a href="{% url 'core:about'   domain=current_site.name %}">{% trans "Haqqımızda" %}</a>
+                                    <a style="color: #FFFFFF"
+                                       href="{% url 'core:delivery'   domain=current_site.name %}">{% trans "Çatdırılma" %}</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'core:contact'  domain=current_site.name %}">{% trans "Əlaqə" %}</a>
+                                    <a style="color: #FFFFFF"
+                                       href="{% url 'core:pay-methods'   domain=current_site.name %}">{% trans "Odəmə üsulları" %}</a>
                                 </li>
                                 <li>
-                                    <a href="{% url 'core:faq'  domain=current_site.name %}">{% trans "FAQ" %}</a>
+                                    <a style="color: #FFFFFF"
+                                       href="{% url 'core:about'   domain=current_site.name %}">{% trans "Haqqımızda" %}</a>
+                                </li>
+                                <li>
+                                    <a style="color: #FFFFFF"
+                                       href="{% url 'core:contact'  domain=current_site.name %}">{% trans "Əlaqə" %}</a>
+                                </li>
+                                <li>
+                                    <a style="color: #FFFFFF"
+                                       href="{% url 'core:faq'  domain=current_site.name %}">{% trans "FAQ" %}</a>
                                 </li>
                             </ul>
                         </div>
@@ -62,7 +92,7 @@
                 <div class="col-4">
                     <div class="header-top-content-wrapper justify-content-end">
                         <div class="header-top-dropdown border-left-0 border-right-0">
-                            <a style="color: black;font-weight: bold" href="#">{% trans 'Səhifəni deyiş' %} <i
+                            <a class="blink" style="color: #FFFFFF">{% trans 'Səhifəni deyiş' %} <i
                                     class="pe-7s-angle-down"></i></a>
                             <ul class="header-top-dropdown__list">
                                 {% for site in sites %}
@@ -77,50 +107,70 @@
             </div>
         </div>
     </div>
-    <div class="header-info-area d-none d-lg-block">
-        <div class="container">
+    <div style="border-bottom: 1px solid #eee;"
+         class="header-navigation-area header-navigation-area--white header-navigation-area--extra-space d-none d-lg-block">
+        <div class="container wide">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="header-info-wrapper">
-                        <div class="header-contact-info">
-                            <ul class="header-contact-info__list">
-                                <li><i class="pe-7s-phone"></i> <a
-                                        href="tel://{{ contact_info.phone }}">{{ contact_info.phone }}</a></li>
-                                <li><i class="pe-7s-mail-open"></i> <a
-                                        href="mailto:{{ contact_info.email }}">{{ contact_info.email }}</a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="header-logo text-center">
+                    <div class="header-info-wrapper header-info-wrapper--alt-style">
+                        <div class="header-logo">
                             <a href="{% url 'core:index' domain=current_site.name %}">
-                                <img src="{{ current_site.site_images.logo.url }}" style="max-width: 100px"
-                                     class="img-fluid" alt="">
+                                <img style="max-width: 80px" src="{{ current_site.site_images.logo.url }}"
+                                     class="img-fluid"
+                                     alt="">
                             </a>
                         </div>
-
+                        <div class="header-navigation-wrapper">
+                            <nav>
+                                <ul>
+                                    {% recursetree categories %}
+                                        {% if node.is_root_node %}
+                                            <li class="has-children">
+                                                <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                                                {% if node.is_leaf_node %}
+                                                {% else %}
+                                                    <ul class="submenu submenu--column-3">
+                                                        {{ children }}
+                                                    </ul>
+                                                {% endif %}
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                <a class="{% if node.level == 1 %}text-black font-weight-bold{% endif %}"
+                                                   href="{{ node.get_absolute_url }}">
+                                                    {{ node.name }}
+                                                </a>
+                                                {% if node.is_leaf_node %}
+                                                {% else %}
+                                                    <ul>
+                                                        {{ children }}
+                                                    </ul>
+                                                {% endif %}
+                                            </li>
+                                        {% endif %}
+                                    {% endrecursetree %}
+                                </ul>
+                            </nav>
+                        </div>
                         <div class="header-icon-area">
-                            <div class="header-icon">
+                            <div class="header-icon d-flex align-items-center">
                                 <ul class="header-icon__list">
-                                    <li>
-                                        <a href="javascript:void(0)" id="search-icon"><i class="fa fa-search"></i></a>
+                                    <li><a href="javascript:void(0)" id="search-icon-2"><i class="fa fa-search"></i></a>
                                     </li>
                                     <li>
                                         <a href="{% url 'user:profile' %}"><i class="fa fa-user-circle"></i></a>
                                     </li>
                                     <li>
-                                        <a href=""><i class="fa fa-shopping-basket"></i>
-                                            <span class="item-count">{{ cart.get_total_items }}</span>
-                                        </a>
+                                        <a href="{% url 'cart:cart' %}"><i class="fa fa-shopping-basket"></i><span
+                                                class="item-count">{{ cart.get_total_items }}</span></a>
                                         <div class="minicart-wrapper">
                                             <p class="minicart-wrapper__title">{% trans "Mini səbət" %}</p>
+
                                             <div class="minicart-wrapper__items ps-scroll">
                                                 {% for i in cart %}
                                                     <div class="minicart-wrapper__items__single">
-                                                        <a href="javascript:void(0)"
-                                                           class="remove-from-cart close-icon"
-                                                           data-product-id="{{ i.product.id }}">
-                                                            <i class="pe-7s-close"></i></a>
+                                                        <a href="javascript:void(0)" class="close-icon"><i
+                                                                class="pe-7s-close"></i></a>
                                                         <div class="image">
                                                             <a href="{{ i.product.get_absolute_url }}">
                                                                 <img src="{{ i.product.get_thumbnail }}"
@@ -131,8 +181,7 @@
                                                             <p class="product-title">
                                                                 <a href="{{ i.product.get_absolute_url }}">
                                                                     {{ i.product.title }}
-                                                                </a>
-                                                            </p>
+                                                                </a></p>
                                                             <p class="product-calculation">
                                                                 <span class="count">{{ i.quantity }}</span> x
                                                                 <span class="price">{{ i.product_size.get_price }} AZN</span>
@@ -143,15 +192,14 @@
                                             </div>
 
                                             <p class="minicart-wrapper__subtotal">{% trans "Ümümi qiymət" %}:
-                                                <span>{{ cart.get_total_cost }} AZN</span>
-                                            </p>
+                                                <span>{{ cart.get_total_cost }} AZN</span></p>
 
                                             <div class="minicart-wrapper__buttons">
                                                 <a href="{% url 'cart:cart' %}"
                                                    class="theme-button theme-button--minicart-button">
                                                     {% trans "Səbətə keç" %}
                                                 </a>
-                                                <a href=""
+                                                <a href="{% url 'order:checkout' %}"
                                                    class="theme-button theme-button--alt theme-button--minicart-button theme-button--minicart-button--alt mb-0">{% trans "Sifariş et" %}</a>
                                             </div>
                                         </div>
@@ -169,130 +217,14 @@
             </div>
         </div>
     </div>
-    <style>
-        .header-navigation-area--white nav > ul > li.has-children > a {
-            color: black;
-        }
-    </style>
-    <div class="header-navigation-area header-navigation-area--white d-none d-lg-block">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-2">
-                    <div class="header-logo header-logo--sticky">
-                        <a href="{% url 'core:index' domain=current_site.name %}">
-                            <img style="max-width: 80px" src="{{ current_site.site_images.logo.url }}" class="img-fluid"
-                                 alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-8">
-                    <div class="header-navigation-wrapper">
-                        <nav>
-                            <ul>
-                                {% recursetree categories %}
-                                    {% if node.is_root_node %}
-                                        <li class="has-children">
-                                            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
-                                            {% if node.is_leaf_node %}
-                                            {% else %}
-                                                <ul class="submenu submenu--column-3">
-                                                    {{ children }}
-                                                </ul>
-                                            {% endif %}
-                                        </li>
-                                    {% else %}
-                                        <li>
-                                            <a class="{% if node.level == 1 %}text-black font-weight-bold{% endif %}"
-                                               href="{{ node.get_absolute_url }}">
-                                                {{ node.name }}
-                                            </a>
-                                            {% if node.is_leaf_node %}
-                                            {% else %}
-                                                <ul>
-                                                    {{ children }}
-                                                </ul>
-                                            {% endif %}
-                                        </li>
-                                    {% endif %}
-                                {% endrecursetree %}
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header-icon-area header-icon-area--sticky">
-                        <div class="header-icon d-flex justify-content-end">
-                            <ul class="header-icon__list header-icon__list header-icon__list header-icon__list--white-icon">
-                                <li><a href="javascript:void(0)" id="search-icon-2"><i class="fa fa-search"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'user:profile' %}"><i class="fa fa-user-circle"></i></a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'cart:cart' %}"><i class="fa fa-shopping-basket"></i><span
-                                            class="item-count">{{ cart.get_total_items }}</span></a>
-                                    <div class="minicart-wrapper">
-                                        <p class="minicart-wrapper__title">{% trans "Mini səbət" %}</p>
-
-                                        <div class="minicart-wrapper__items ps-scroll">
-                                            {% for i in cart %}
-                                                <div class="minicart-wrapper__items__single">
-                                                    <a href="javascript:void(0)" class="close-icon"><i
-                                                            class="pe-7s-close"></i></a>
-                                                    <div class="image">
-                                                        <a href="{{ i.product.get_absolute_url }}">
-                                                            <img src="{{ i.product.get_thumbnail }}"
-                                                                 class="img-fluid" alt="">
-                                                        </a>
-                                                    </div>
-                                                    <div class="content">
-                                                        <p class="product-title">
-                                                            <a href="{{ i.product.get_absolute_url }}">
-                                                                {{ i.product.title }}
-                                                            </a></p>
-                                                        <p class="product-calculation">
-                                                            <span class="count">{{ i.quantity }}</span> x
-                                                            <span class="price">{{ i.product_size.get_price }} AZN</span>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-
-                                        <p class="minicart-wrapper__subtotal">{% trans "Ümümi qiymət" %}:
-                                            <span>{{ cart.get_total_cost }} AZN</span></p>
-
-                                        <div class="minicart-wrapper__buttons">
-                                            <a href="{% url 'cart:cart' %}"
-                                               class="theme-button theme-button--minicart-button">
-                                                {% trans "Səbətə keç" %}
-                                            </a>
-                                            <a href="{% url 'order:checkout' %}"
-                                               class="theme-button theme-button--alt theme-button--minicart-button theme-button--minicart-button--alt mb-0">{% trans "Sifariş et" %}</a>
-                                        </div>
-                                    </div>
-                                </li>
-                                {% if request.user.is_authenticated %}
-                                    <li>
-                                        <a href="{% url 'user:logout' %}"><i class="fa fa-sign-out"></i></a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
     <div class="header-mobile-navigation d-block d-lg-none">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-6 col-md-6">
                     <div class="header-logo">
                         <a href="{% url 'core:index' domain=current_site.name %}">
-                            <img style="max-width: 100px !important" src="{{ logo.image.url }}" class="img-fluid"
+                            <img style="max-width: 100px !important" src="{{ current_site.site_images.logo.url }}"
+                                 class="img-fluid"
                                  alt="">
                         </a>
                     </div>
@@ -419,7 +351,7 @@
                 </div>
                 <div class="col-xl-4 col-custom-xl-6 col-lg-6">
                     <div class="footer-widget footer-widget--two">
-                        <h4 class="footer-widget__title">{% trans "Xəbərlərə Abunə Ol" %}</h4>
+                        <h4 class="footer-widget__title">{% trans "Sayta Abunə Ol" %}</h4>
                         <div class="newsletter-form-area">
                             <form action="{% url 'core:subscribe' domain=current_site.name %}" method="post"
                                   class="mc-form">
@@ -441,10 +373,10 @@
                     </div>
 
                     <div class="footer-widget footer-widget--two">
-                        <span class="footer-widget__text footer-widget__text--two">Follow us</span>
+                        <span class="footer-widget__text footer-widget__text--two">{% trans 'Sosial Şəbəkələr' %}</span>
                         <ul class="footer-widget__social-links">
                             {% for i in media %}
-                                <a href="{{ i.media.url }}" title="{{ i.media }}"><i
+                                <a href="{{ i.url }}" title="{{ i.media }}"><i
                                         class="fa fa-{{ i.media }}"></i></a>
                             {% endfor %}
                         </ul>

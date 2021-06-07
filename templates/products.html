@@ -4,7 +4,62 @@
 {% load temptag %}
 {% block content %}
     <!--====================  breadcrumb area ====================-->
+    <div class="hero-slider-area section-space">
+        <!-- START REVOLUTION SLIDER 5.4.7 fullwidth mode -->
+        <div id="rev_slider_23_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.4.7">
+            <ul>
+                {% for i in slider %}
+                    <li data-index="rs-5{{ forloop.counter }}"
+                        data-transition="slidingoverlayhorizontal,fadetoleftfadefromright,fadetotopfadefrombottom,fadetorightfadefromleft,fadetobottomfadefromtop,curtain-2,curtain-1,curtain-3"
+                        data-slotamount="default,default,default,default,default,default,default,default"
+                        data-hideafterloop="0" data-hideslideonmobile="off"
+                        data-easein="default,default,default,default,default,default,default,default"
+                        data-easeout="default,default,default,default,default,default,default,default"
+                        data-masterspeed="1000,default,default,default,default,default,default,default" data-thumb=""
+                        data-delay="6990" data-rotate="0,0,0,0,0,0,0,0" data-saveperformance="off" data-title="Slide"
+                        data-param1="" data-param2="" data-param3="" data-param4="" data-param5="" data-param6=""
+                        data-param7="" data-param8="" data-param9="" data-param10="" data-description="">
+                        <!-- MAIN IMAGE -->
+                        <img src="{{ i.image.url }}" alt="" width="1920" height="1080"
+                             data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat"
+                             class="rev-slidebg" data-no-retina>
+                        <!-- LAYERS -->
 
+                        <!-- LAYER NR. 5 -->
+                        <div class="tp-caption   tp-resizeme" id="slide-55-layer-5"
+                             data-x="['left','center','center','left']" data-hoffset="['1102','205','119','209']"
+                             data-y="['top','top','top','top']" data-voffset="['253','97','144','134']"
+                             data-fontsize="['80','90','80','50']" data-lineheight="['80','90','80','60']"
+                             data-width="none"
+                             data-height="none" data-whitespace="nowrap" data-type="text" data-responsive_offset="on"
+                             data-frames='[{"delay":600,"speed":1500,"frame":"0","from":"y:50px;opacity:0;","to":"o:1;","ease":"Power2.easeOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"Power3.easeInOut"}]'
+                             data-textAlign="['center','center','center','center']" data-paddingtop="[0,0,0,0]"
+                             data-paddingright="[0,0,0,0]" data-paddingbottom="[0,0,0,0]" data-paddingleft="[0,0,0,0]"
+                             style="z-index: 5; white-space: nowrap; font-size: 80px; line-height: 80px; font-weight: 300; color: #000000; letter-spacing: -2px;font-family:Source Sans Pro;">
+                            {{ i.text }}
+                        </div>
+
+                        <!-- LAYER NR. 6 -->
+                        <a class="tp-caption Robin-Button-New rev-btn " target="_self"
+                           id="slide-55-layer-7" data-x="['left','center','center','left']"
+                           href="{{ i.button_url }}"
+                           data-hoffset="['1226','211','125','259']" data-y="['top','middle','top','top']"
+                           data-voffset="['462','-20','372','290']" data-width="none" data-height="none"
+                           data-whitespace="nowrap" data-type="button" data-actions='' data-responsive_offset="on"
+                           data-responsive="off"
+                           data-frames='[{"delay":520,"speed":1330,"frame":"0","from":"y:-50px;opacity:0;","to":"o:1;","ease":"Power4.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;","ease":"nothing"},{"frame":"hover","speed":"300","ease":"Linear.easeNone","to":"o:1;rX:0;rY:0;rZ:0;z:0;","style":"c:rgb(255,255,255);bg:rgb(34,34,34);bc:rgb(0,0,0);"}]'
+                           data-textAlign="['inherit','inherit','inherit','inherit']" data-paddingtop="[12,12,12,12]"
+                           data-paddingright="[25,25,25,25]" data-paddingbottom="[12,12,12,12]"
+                           data-paddingleft="[25,25,25,25]"
+                           style="z-index: 6; white-space: nowrap; font-size: 16px; line-height: 21px; font-weight: 700; color: #000000; font-family:Source Sans Pro;background-color:rgba(247,177,19,0);border-color:rgba(0,0,0,1);border-style:solid;border-width:2px 2px 2px 2px;border-radius:5px 5px 5px 5px;outline:none;box-shadow:none;box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;cursor:pointer;text-decoration: none;">
+                            {{ i.button_text }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>
+        </div>
+    </div>
     <div class="breadcrumb-area section-space--breadcrumb">
         <div class="container">
             <div class="row">
@@ -24,9 +79,7 @@
         </div>
     </div>
     <!--====================  End of breadcrumb area  ====================-->
-
     <!--====================  page content wrapper ====================-->
-
     <div class="page-content-wrapper">
         <!--=======  shop page area  =======-->
 
@@ -284,7 +337,7 @@
                                                                                                      data-tippy-arrow="true"
                                                                                                      data-tippy-theme="sharpborder">
                                                     <i
-                                                        class="fa fa-search"></i></a></span>
+                                                            class="fa fa-search"></i></a></span>
                                                     <span class="single-icon single-icon--add-to-cart">
                                                         {% if productCart.in_cart %}
                                                             <a href="#"

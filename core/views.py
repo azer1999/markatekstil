@@ -8,7 +8,7 @@ from django.views import View
 from django.views.generic import TemplateView
 from apps.product.models import Category
 from core.forms import ContactFeedbackForm, SubscribeForm
-from core.models import Slider, Partner, Advantage, ContactInfo, About, FAQ
+from core.models import Slider, Partner, Advantage, ContactInfo, About, FAQ, Delivery, PayMethods
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -16,7 +16,7 @@ class IndexView(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
-        print(get_current_site(self.request),"+++++")
+        print(get_current_site(self.request), "+++++")
 
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
@@ -37,7 +37,6 @@ class IndexSetPageView(TemplateView):
         # Add in a QuerySet of all the books
         # context['sites'] = Site.objects.all()
         return context
-
 
 
 class AboutView(TemplateView):
@@ -74,7 +73,7 @@ class ContactView(View):
             form.save()
             messages.add_message(request, messages.INFO,
                                  _("Sualınız qeydə alındı.Sizinlə yaxın müddətdə əlaqə qurulacaq"))
-            return redirect(reverse('core:index',args=(get_current_site(request).name,)))
+            return redirect(reverse('core:index', args=(get_current_site(request).name,)))
 
     def get(self, request, *args, **kwargs):
         context = {}
@@ -96,7 +95,31 @@ class SubscribeView(View):
             print(form.errors)
             messages.add_message(request, messages.INFO,
                                  _("Xəta baç verdi"))
-        return redirect(reverse('core:index',args=(get_current_site(request).name,)))
+        return redirect(reverse('core:index', args=(get_current_site(request).name,)))
+
+
+class DeliveryView(TemplateView):
+    template_name = 'page.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['page'] = Delivery.objects.last()
+
+        return context
+
+
+class PayMethodsView(TemplateView):
+    template_name = 'page.html'
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['page'] = PayMethods.objects.last()
+
+        return context
 
 
 def set_site(request, id):

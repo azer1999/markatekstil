@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <section style="padding: 50px 0">
+                    {{ page.content|safe }}
+                </section>
+            </div>
+        </div>
+    </div>
+{% endblock %}
