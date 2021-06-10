@@ -80,8 +80,8 @@ class PayMethods(models.Model):
     content = RichTextField(_("Mətn"))
 
     class Meta:
-        verbose_name = _("Odəmə üsulları")
-        verbose_name_plural = _("Odəmə üsulları")
+        verbose_name = _("Məxfilik")
+        verbose_name_plural = _("Məxfilik")
 
     def __str__(self):
         return unicode(f'{self.id}')
