@@ -71,7 +71,7 @@
                                 </li>
                                 <li>
                                     <a style="color: #FFFFFF"
-                                       href="{% url 'core:pay-methods'   domain=current_site.name %}">{% trans "Odəmə üsulları" %}</a>
+                                       href="{% url 'core:pay-methods'   domain=current_site.name %}">{% trans "Ödəmə üsulları" %}</a>
                                 </li>
                                 <li>
                                     <a style="color: #FFFFFF"
@@ -126,7 +126,8 @@
                                     {% recursetree categories %}
                                         {% if node.is_root_node %}
                                             <li class="has-children">
-                                                <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                                                <a style="text-transform: capitalize"
+                                                   href="{{ node.get_absolute_url }}">{{ node.name }}</a>
                                                 {% if node.is_leaf_node %}
                                                 {% else %}
                                                     <ul class="submenu submenu--column-3">

@@ -21,6 +21,7 @@
     <thead>
     <tr style="background-color: #009879;color: #ffffff;text-align: left;">
         <th style="padding: 12px 15px;">{% trans 'Məhsul' %}</th>
+        <th style="padding: 12px 15px;">{% trans 'Ölçü' %}</th>
         <th style="padding: 12px 15px;">{% trans 'Say' %}</th>
         <th style="padding: 12px 15px;">{% trans 'Qiymət' %}</th>
     </tr>
@@ -29,6 +30,7 @@
     {% for i in order.items.all %}
         <tr style="border-bottom: 1px solid #dddddd;{% if forloop.counter|divisibleby:2 %}background-color: #f3f3f3;{% else %}{% endif %}">
             <td style="padding: 12px 15px;">{{ i.product.title }}</td>
+            <td style="padding: 12px 15px;"></td>
             <td style="padding: 12px 15px;">x{{ i.quantity }}</td>
             <td style="padding: 12px 15px;">{{ i.get_total_item_cost }} AZN</td>
         </tr>

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'mptt',
     'ckeditor',
+    'ckeditor_uploader',
     'colorfield',
     'apps.base_user',
     'apps.product',
