@@ -31,7 +31,8 @@ class OrderView(View):
                     order=order,
                     product=i['product'],
                     price=i['price'],
-                    quantity=i['quantity']
+                    quantity=i['quantity'],
+                    product_size=i['product_size']
                 )
                 item.save()
             cart.clear()

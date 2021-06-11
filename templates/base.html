@@ -94,7 +94,7 @@
                         <div class="header-top-dropdown border-left-0 border-right-0">
                             <a class="blink" style="color: #FFFFFF">{% trans 'Səhifəni deyiş' %} <i
                                     class="pe-7s-angle-down"></i></a>
-                            <ul class="header-top-dropdown__list">
+                            <ul class="header-top-dropdown__list" style="left: -60px !important">
                                 {% for site in sites %}
                                     <li><a href="{% url 'core:index' domain=site.name %}">
                                         {{ site.name }}
