@@ -123,33 +123,28 @@
                         <div class="header-navigation-wrapper">
                             <nav>
                                 <ul>
-                                    {% recursetree categories %}
-                                        {% if node.is_root_node %}
-                                            <li class="has-children">
-                                                <a style="text-transform: capitalize"
-                                                   href="{{ node.get_absolute_url }}">{{ node.name }}</a>
-                                                {% if node.is_leaf_node %}
-                                                {% else %}
-                                                    <ul class="submenu submenu--column-3">
-                                                        {{ children }}
-                                                    </ul>
-                                                {% endif %}
-                                            </li>
-                                        {% else %}
-                                            <li>
-                                                <a class="{% if node.level == 1 %}text-black font-weight-bold{% endif %}"
-                                                   href="{{ node.get_absolute_url }}">
-                                                    {{ node.name }}
-                                                </a>
-                                                {% if node.is_leaf_node %}
-                                                {% else %}
-                                                    <ul>
-                                                        {{ children }}
-                                                    </ul>
-                                                {% endif %}
-                                            </li>
-                                        {% endif %}
-                                    {% endrecursetree %}
+                                    {% for category in  categories_ %}
+                                        <li class="has-children">
+                                            <a style="text-transform: capitalize"
+                                               href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                                            <ul class="submenu submenu--column-3">
+                                                {% recursetree category.get_descendants %}
+                                                    <li>
+                                                        <a class="{% if node.level == 1 %}text-black font-weight-bold{% endif %}"
+                                                           href="{{ node.get_absolute_url }}">
+                                                            {{ node.name }}
+                                                        </a>
+                                                        {% if node.is_leaf_node %}
+                                                        {% else %}
+                                                            <ul>
+                                                                {{ children }}
+                                                            </ul>
+                                                        {% endif %}
+                                                    </li>
+                                                {% endrecursetree %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
                                 </ul>
                             </nav>
                         </div>
@@ -267,18 +262,20 @@
                 </div>
                 <nav class="offcanvas-naviagtion">
                     <ul>
-                        {% recursetree categories %}
-                            <li class="{% if node.has_children %} menu-item-has-children{% endif %}">
-                                <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
-                                {% if node.is_leaf_node %}
+                        {% for category in  categories_ %}
+                            <li class="{% if category.has_children %} menu-item-has-children{% endif %}">
+                                <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                                <ul class="sub-menu">
+                                    {% recursetree category.get_descendants %}
+                                        <li class="{% if category.has_children %} menu-item-has-children{% endif %}">
+                                            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                                            {{ children }}
+                                        </li>
+                                    {% endrecursetree %}
+                                </ul>
 
-                                {% else %}
-                                    <ul class="sub-menu">
-                                        {{ children }}
-                                    </ul>
-                                {% endif %}
                             </li>
-                        {% endrecursetree %}
+                        {% endfor %}
                     </ul>
                 </nav>
 
