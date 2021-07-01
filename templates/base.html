@@ -262,18 +262,24 @@
                 </div>
                 <nav class="offcanvas-naviagtion">
                     <ul>
-                        {% for category in  categories_ %}
+                        {% for category in categories_ %}
                             <li class="{% if category.has_children %} menu-item-has-children{% endif %}">
                                 <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
-                                <ul class="sub-menu">
-                                    {% recursetree category.get_descendants %}
-                                        <li class="{% if category.has_children %} menu-item-has-children{% endif %}">
-                                            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
-                                            {{ children }}
-                                        </li>
-                                    {% endrecursetree %}
-                                </ul>
-
+                                {% if category.has_children %}
+                                    <ul class="sub-menu">
+                                        {% recursetree category.get_descendants %}
+                                            <li class="{% if category.has_children %} menu-item-has-children{% endif %}">
+{#                                                <span class="menu-expand"><i></i></span>#}
+                                                <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                                                {% if not node.is_leaf_node %}
+                                                    <ul class="sub-menu">
+                                                        {{ children }}
+                                                    </ul>
+                                                {% endif %}
+                                            </li>
+                                        {% endrecursetree %}
+                                    </ul>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     </ul>

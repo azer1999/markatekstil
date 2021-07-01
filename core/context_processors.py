@@ -15,7 +15,7 @@ def main(request):
     context["cart"] = Cart(request)
     context["subscribe_form"] = subscribe_form
     context["logo"] = Logo.on_site.last()
-    context['categories'] = Category.objects.filter(site=settings.SITE_ID).all()
+    context['categories'] = Category.objects.all()
     context['categories_'] = Category.objects.filter(parent=None, site=settings.SITE_ID)
     context['current_site'] = get_current_site(request)
     context['sites'] = Site.objects.all()
