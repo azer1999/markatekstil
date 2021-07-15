@@ -144,8 +144,7 @@
                                             {% if category.has_children %}
                                                 <ul class="sub-menu">
                                                     {% recursetree category.get_descendants %}
-                                                        <li {% if category.has_children %}
-                                                            class="has-children" {% endif %}>
+                                                        <li {% if node.has_children %} class="has-children" {% endif %}>
                                                             <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
                                                             {% if node.is_leaf_node %}
                                                             {% else %}
