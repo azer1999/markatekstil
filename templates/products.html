@@ -137,14 +137,28 @@
                                     <li>
                                         <a href="{% url 'products:products' domain=current_site.name %}">{% trans "Bütün Kateqoriyalar" %}</a>
                                     </li>
-                                    {% recursetree categories %}
-                                        <li {% if node.has_children %} class="has-children" {% endif %}>
-                                            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
-                                            <ul class="sub-menu">
-                                                {{ children }}
-                                            </ul>
+
+                                    {% for category in  categories_ %}
+                                        <li {% if category.has_children %} class="has-children" {% endif %}>
+                                            <a href="{{ category.get_absolute_url }}">{{ category.name }}</a>
+                                            {% if category.has_children %}
+                                                <ul class="sub-menu">
+                                                    {% recursetree category.get_descendants %}
+                                                        <li {% if category.has_children %}
+                                                            class="has-children" {% endif %}>
+                                                            <a href="{{ node.get_absolute_url }}">{{ node.name }}</a>
+                                                            {% if node.is_leaf_node %}
+                                                            {% else %}
+                                                                <ul class="sub-menu">
+                                                                    {{ children }}
+                                                                </ul>
+                                                            {% endif %}
+                                                        </li>
+                                                    {% endrecursetree %}
+                                                </ul>
+                                            {% endif %}
                                         </li>
-                                    {% endrecursetree %}
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <!--=======  End of single sidebar widget  =======-->
